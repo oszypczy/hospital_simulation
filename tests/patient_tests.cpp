@@ -11,6 +11,7 @@ TEST_CASE("patient simple tests", "[patient]")
     CHECK(Lidka.getSex() == Sex::female);
     CHECK_FALSE(Lidka.didStateChaneged());
     CHECK(Lidka.getState() == PatientState::RESTING);
+    CHECK(Lidka.getHealthCard().getPESEL() == "03232407362");
 
     SECTION("testing valid setters")
     {
@@ -62,5 +63,27 @@ TEST_CASE("patient simple tests", "[patient]")
         std::stringstream ss;
         ss << Lidka;
         CHECK(ss.str() == "Patient: Lidia Strzelecka (03232407362), 20 years old.");
+    }
+
+    SECTION("testing healthcard")
+    {
+        Lidka.getHealthCard().addDisease(Diseases::FLU);
+        Lidka.getHealthCard().planService(20);
+        CHECK(Lidka.getHealthCard().checkDisease(Diseases::FLU));
+        CHECK(Lidka.getHealthCard().checkService(20));
+        Lidka.getHealthCard().finishService(20);
+        CHECK_FALSE(Lidka.getHealthCard().checkService(20));
+        Lidka.getHealthCard().cureDisease(Diseases::FLU);
+        CHECK_FALSE(Lidka.getHealthCard().checkDisease(Diseases::FLU));
+    }
+
+    SECTION("testing healthcard invalid operations")
+    {
+       Lidka.getHealthCard().addDisease(Diseases::FLU);
+       Lidka.getHealthCard().planService(20);
+       CHECK_THROWS_MATCHES(Lidka.getHealthCard().addDisease(Diseases::FLU), std::logic_error, Catch::Matchers::Message("Disease already exists!"));
+       CHECK_THROWS_MATCHES(Lidka.getHealthCard().planService(20), std::logic_error, Catch::Matchers::Message("Service with given ID already exists!"));
+       CHECK_THROWS_MATCHES(Lidka.getHealthCard().cureDisease(Diseases::HEART_ATTACK), std::logic_error, Catch::Matchers::Message("Disease not found!"));
+       CHECK_THROWS_MATCHES(Lidka.getHealthCard().finishService(21), std::logic_error, Catch::Matchers::Message("Service with given ID not found!"));
     }
 }
