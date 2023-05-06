@@ -1,0 +1,36 @@
+{
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "C/C++: g++.exe kompiluj aktywny plik",
+            // "command": "C:\\msys64\\mingw64\\bin\\g++.exe",
+            "command": "/usr/bin/g++",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                //Wersja dla Windowsa:
+                // "${workspaceFolder}\\*.cpp",
+                // "-o",
+                // "${workspaceFolder}\\${workspaceFolderBasename}.exe",
+                //Wersja dla Linuxa:
+                "${workspaceFolder}/*.cpp",
+                "-o",
+                "${workspaceFolder}/${workspaceFolderBasename}",
+                "-Wall",
+                "-Werror"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Zadanie wygenerowane przez debuger."
+        }
+    ],
+    "version": "2.0.0"
+}
