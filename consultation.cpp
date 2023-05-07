@@ -1,6 +1,7 @@
 #include "consultation.h"
 #include "wrongPersonelException.h"
 #include "wrongServiceStateException.h"
+#include "wrongPatientException.h"
 #include <iostream>
 #include <iomanip>
 
@@ -17,7 +18,12 @@ bool Consultation::checkPersonel() const {
 
 void Consultation::startService(std::unique_ptr<Patient> newPatient) {
     if (!checkPersonel()){
+        this->patient = std::move(newPatient);
         throw WrongPersonelException();
+    }
+    if (!(newPatient->getHealthCard().checkService(ID))){
+        this->patient = std::move(newPatient);
+        throw WrongPatientException();
     }
     this->state = ServiceState::IN_PROGRESS;
     this->patient = std::move(newPatient);

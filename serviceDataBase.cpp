@@ -15,8 +15,8 @@ void ServiceDataBase::addConsultation(ushort ID, unsigned short totalTime, bool 
     }
 }
 
-void ServiceDataBase::addOperation(ushort ID, unsigned short totalTime, bool NFZ, OperationType type){
-    std::unique_ptr<Operation> addedOperation = std::make_unique<Operation>(ID, totalTime, NFZ, type);
+void ServiceDataBase::addOperation(ushort ID, unsigned short totalTime, bool NFZ, OperationType type, Diseases disease){
+    std::unique_ptr<Operation> addedOperation = std::make_unique<Operation>(ID, totalTime, NFZ, type, disease);
     if (getServiceByID(ID) == medicalServices.end()){
         medicalServices.push_back(std::move(addedOperation));
     } else {

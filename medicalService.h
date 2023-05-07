@@ -39,5 +39,6 @@ class MedicalService {
         virtual void startService(std::unique_ptr<Patient> patient) = 0;
         virtual void continueService() = 0;
         virtual void finishService() = 0;
+        std::unique_ptr<Patient> returnPatient();
     friend std::ostream& operator<<(std::ostream& os, const MedicalService& service);
 };

@@ -11,7 +11,7 @@ class ServiceDataBase {
         uint calculateTotalCost() const;
         std::list<std::unique_ptr<MedicalService>>::iterator getServiceByID(ushort ID);
         void addConsultation(ushort ID, unsigned short totalTime, bool NFZ);
-        void addOperation(ushort ID, unsigned short totalTime, bool NFZ, OperationType type);
+        void addOperation(ushort ID, unsigned short totalTime, bool NFZ, OperationType type, Diseases disease);
         void removeService(ushort ID);
     friend std::ostream& operator<<(std::ostream& os, const ServiceDataBase& database);
 };

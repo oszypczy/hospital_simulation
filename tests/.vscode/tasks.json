@@ -27,6 +27,7 @@
                 "${workspaceFolder}/../serviceDataBase.cpp",
                 "${workspaceFolder}/../objectAlreadyExistsException.cpp",
                 "${workspaceFolder}/../healthCard.cpp",
+                "${workspaceFolder}/../wrongPatientException.cpp",
                 "-o",
                 "${workspaceFolder}/${workspaceFolderBasename}",
                 "-Wall",

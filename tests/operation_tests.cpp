@@ -3,7 +3,7 @@
 
 TEST_CASE("operation simple tests", "[operation]")
 {
-    Operation operation(101, 140, false, OperationType::BRAIN_TUMOR_REMOVAL);
+    Operation operation(101, 140, false, OperationType::BRAIN_TUMOR_REMOVAL, Diseases::BRAIN_TUMOR);
     CHECK(operation.getID() == 101);
     CHECK_FALSE(operation.checkPersonel());
     CHECK(operation.getServiceState() == ServiceState::NOT_READY);
@@ -24,6 +24,8 @@ TEST_CASE("operation simple tests", "[operation]")
         CHECK(operation.getDoctor(DoctorSpecialty::ANESTESIOLOGYST).getName() == "Konrad");
         CHECK(operation.getDoctor(DoctorSpecialty::NEUROLOGIST).getName() == "Jan");
         std::unique_ptr<Patient> patient = std::make_unique<Patient>("03232407362", "Lidia", "Strzelecka", Sex::female, 20);
+        patient->getHealthCard().addDisease(Diseases::BRAIN_TUMOR);
+        patient->getHealthCard().planService(101);
         CHECK(patient->getState() == PatientState::RESTING);
         operation.startService(std::move(patient));
         CHECK(operation.getServiceState() == ServiceState::IN_PROGRESS);
@@ -46,6 +48,8 @@ TEST_CASE("operation simple tests", "[operation]")
         std::unique_ptr<Nurse> nurse = std::make_unique<Nurse>("03287607850", "Ania", "Kotas", Sex::female, 19);
         operation.addNurse(std::move(nurse));
         std::unique_ptr<Patient> patient = std::make_unique<Patient>("03232407362", "Lidia", "Strzelecka", Sex::female, 20);
+        patient->getHealthCard().addDisease(Diseases::BRAIN_TUMOR);
+        patient->getHealthCard().planService(101);
         operation.startService(std::move(patient));
         CHECK(operation.getProgressTime() == 15);
         operation.continueService();
@@ -71,6 +75,7 @@ TEST_CASE("operation simple tests", "[operation]")
         CHECK(operation.getDoctor("03270607850").getActivity() == DoctorActivity::RESTING);
         CHECK(operation.getDoctor("09876534879").getActivity() == DoctorActivity::RESTING);
         CHECK(operation.getNurse("03287607850").getActivity() == NurseActivity::RESTING);
+        CHECK_FALSE(operation.getPatient().getHealthCard().checkDisease(Diseases::BRAIN_TUMOR));
     }
 
     SECTION("testing different invalid scenarios")
@@ -96,6 +101,8 @@ TEST_CASE("operation simple tests", "[operation]")
         std::unique_ptr<Nurse> nurse = std::make_unique<Nurse>("03287607850", "Ania", "Kotas", Sex::female, 19);
         operation.addNurse(std::move(nurse));
         std::unique_ptr<Patient> patient = std::make_unique<Patient>("03232407362", "Lidia", "Strzelecka", Sex::female, 20);
+        patient->getHealthCard().addDisease(Diseases::BRAIN_TUMOR);
+        patient->getHealthCard().planService(101);
         operation.startService(std::move(patient));
         CHECK(operation.calculateCost() == 257070);
         std::stringstream ss;

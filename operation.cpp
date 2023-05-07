@@ -1,11 +1,12 @@
 #include "operation.h"
 #include "wrongPersonelException.h"
 #include "wrongServiceStateException.h"
+#include "wrongPatientException.h"
 #include <iostream>
 #include <iomanip>
 
-Operation::Operation(ushort ID, unsigned short totalTime, bool NFZ, OperationType type)
-: MedicalService(ID, totalTime, NFZ), type(type), requiredSecialty({{OperationType::HEART_TRANSPLANT, DoctorSpecialty::CARDIOLOGIST}, {OperationType::BRAIN_TUMOR_REMOVAL, DoctorSpecialty::NEUROLOGIST}}) {
+Operation::Operation(ushort ID, unsigned short totalTime, bool NFZ, OperationType type, Diseases disease)
+: MedicalService(ID, totalTime, NFZ), type(type), disease(disease), requiredSecialty({{OperationType::HEART_TRANSPLANT, DoctorSpecialty::CARDIOLOGIST}, {OperationType::BRAIN_TUMOR_REMOVAL, DoctorSpecialty::NEUROLOGIST}}) {
 }
 
 Operation::~Operation() {}
@@ -25,7 +26,16 @@ bool Operation::checkPersonel() const {
 
 void Operation::startService(std::unique_ptr<Patient> newPatient) {
     if (!checkPersonel()){
+        this->patient = std::move(newPatient);
         throw WrongPersonelException();
+    }
+    if (!(newPatient->getHealthCard().checkService(ID))){
+        this->patient = std::move(newPatient);
+        throw WrongPatientException();
+    }
+    if (!(newPatient->getHealthCard().checkDisease(disease))){
+        this->patient = std::move(newPatient);
+        throw WrongPatientException();
     }
     this->state = ServiceState::IN_PROGRESS;
     this->patient = std::move(newPatient);
@@ -54,6 +64,7 @@ void Operation::continueService() {
 void Operation::finishService() {
     if (state == ServiceState::FINISHED) {
         (*patient).setState(PatientState::RESTING);
+        (*patient).getHealthCard().cureDisease(disease);
         for (auto& doctor : doctors) {
             (*doctor).setActivity(DoctorActivity::RESTING);
         }

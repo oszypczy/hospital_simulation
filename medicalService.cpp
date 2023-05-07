@@ -77,6 +77,10 @@ Nurse& MedicalService::getNurse(std::string PESEL) const {
     throw ObjectNotFoundException("Nurse with PESEL: " + PESEL);
 }
 
+std::unique_ptr<Patient> MedicalService::returnPatient() {
+    return std::move(patient);
+}
+
 std::ostream& operator<<(std::ostream& os, const MedicalService& service) {
     os << service.print();
     return os;
