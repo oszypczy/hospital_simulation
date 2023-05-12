@@ -56,7 +56,7 @@ ushort Human::getAge() const {
 }
 
 bool Human::didStateChaneged() const {
-    return state;
+    return simulationState;
 }
 
 void Human::setPESEL(std::string newPESEL) {
@@ -84,7 +84,7 @@ void Human::setAge(ushort newAge) {
 }
 
 void Human::changeState() {
-    state = !state;
+    simulationState = !simulationState;
 }
 
 bool Human::operator==(const Human& secondHuman) const {

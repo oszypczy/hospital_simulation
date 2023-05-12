@@ -10,7 +10,7 @@ class Human{
         std::string surname;
         Sex sex;
         ushort age = 0;
-        bool state = false;
+        bool simulationState = false;
         void checkData(std::string PESEL, std::string name, std::string surname, ushort age) const;
     public:
         Human(std::string PESEL, std::string name, std::string surname, Sex sex, ushort age);
