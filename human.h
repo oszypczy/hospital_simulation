@@ -1,5 +1,5 @@
 #pragma once
-#include "string"
+#include <string>
 
 enum class Sex {male, female, other};
 
@@ -11,7 +11,6 @@ class Human{
         Sex sex;
         ushort age = 0;
         bool state = false;
-        // localization
         void checkData(std::string PESEL, std::string name, std::string surname, ushort age) const;
     public:
         Human(std::string PESEL, std::string name, std::string surname, Sex sex, ushort age);
@@ -30,6 +29,5 @@ class Human{
         void changeState();
         bool operator==(const Human& secondHuman) const;
         bool operator!=(const Human& secondHuman) const;
-        // go to localization
     friend std::ostream& operator<<(std::ostream& out, const Human& human);
 };
