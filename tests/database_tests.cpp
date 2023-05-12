@@ -47,7 +47,7 @@ TEST_CASE("serviceDataBase simple tests", "[serviceDataBase]")
         std::unique_ptr<Patient> patient = std::make_unique<Patient>("03232407362", "Lidia", "Strzelecka", Sex::female, 20);
         patient->getHealthCard().planService(12);
         (*serviceDataBase.getServiceByID(12))->addDoctor(std::move(doctor));
-        CHECK((*serviceDataBase.getServiceByID(12))->getDoctor("03270607850").getName() ==  "Jan");
+        CHECK((*(*serviceDataBase.getServiceByID(12))->getDoctor("03270607850"))->getName() ==  "Jan");
         (*serviceDataBase.getServiceByID(12))->startService(std::move(patient));
         CHECK((*serviceDataBase.getServiceByID(12))->getPatient().getName() == "Lidia");
     }
@@ -76,9 +76,9 @@ TEST_CASE("serviceDataBase simple tests", "[serviceDataBase]")
         (*serviceDataBase.getServiceByID(25))->continueService();
         CHECK((*serviceDataBase.getServiceByID(25))->getServiceState() == ServiceState::FINISHED);
         CHECK((*serviceDataBase.getServiceByID(25))->getPatient().getState() == PatientState::RESTING);
-        CHECK((*serviceDataBase.getServiceByID(25))->getDoctor("03270607850").getActivity() == DoctorActivity::RESTING);
-        CHECK((*serviceDataBase.getServiceByID(25))->getDoctor("09876534879").getActivity() == DoctorActivity::RESTING);
-        CHECK((*serviceDataBase.getServiceByID(25))->getNurse("03287607850").getActivity() == NurseActivity::RESTING);
+        CHECK((*(*serviceDataBase.getServiceByID(25))->getDoctor("03270607850"))->getActivity() == DoctorActivity::RESTING);
+        CHECK((*(*serviceDataBase.getServiceByID(25))->getDoctor("09876534879"))->getActivity() == DoctorActivity::RESTING);
+        CHECK((*(*serviceDataBase.getServiceByID(25))->getNurse("03287607850"))->getActivity() == NurseActivity::RESTING);
         CHECK_FALSE((*serviceDataBase.getServiceByID(25))->getPatient().getHealthCard().checkDisease(Diseases::HEART_ATTACK));
     }
 }

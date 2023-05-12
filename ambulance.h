@@ -20,7 +20,7 @@ class Ambulance{
     public:
         Ambulance(std::string registrationNumber, unsigned short totalTime);
         void operator++();
-        void addParamedic(std::unique_ptr<Paramedic> paramedic);
+        std::unique_ptr<Paramedic> addParamedic(std::unique_ptr<Paramedic> paramedic);
         void startIntervention(std::unique_ptr<Patient> patient);
         void continueIntervention();
         void finishIntervention();
@@ -31,6 +31,7 @@ class Ambulance{
         std::string getRegistrationNumber() const;
         bool checkOccupancy() const;
         std::unique_ptr<Patient> returnPatient();
+        std::unique_ptr<Paramedic> returnParamedic(std::string PESEL);
         Patient& getPatient() const;
         Paramedic& getParamedic(std::string PESEL) const;
         void setRegistrationNumber(std::string newRegistrationNumber);

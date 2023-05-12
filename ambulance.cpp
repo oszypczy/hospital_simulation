@@ -3,6 +3,8 @@
 #include "wrongServiceStateException.h"
 #include "objectNotFoundException.h"
 #include "invalidRegistrationNumberException.h"
+#include "wrongPersonStateException.h"
+#include <algorithm>
 #include <iostream>
 
 Ambulance::Ambulance(std::string registrationNumber, unsigned short totalTime) {
@@ -71,8 +73,12 @@ void Ambulance::operator++() {
     }
 }
 
-void Ambulance::addParamedic(std::unique_ptr<Paramedic> paramedic) {
-    paramedics.push_back(std::move(paramedic));
+std::unique_ptr<Paramedic> Ambulance::addParamedic(std::unique_ptr<Paramedic> paramedic) {
+    if (paramedic->getActivity() == ParamedicActivity::RESTING){
+        paramedics.push_back(std::move(paramedic));
+        return nullptr;
+    }
+    return std::move(paramedic);
 }
 
 bool Ambulance::checkPersonel() const {
@@ -124,7 +130,28 @@ void Ambulance::finishIntervention() {
 }
 
 std::unique_ptr<Patient> Ambulance::returnPatient() {
+    if (patient == nullptr) {
+        throw ObjectNotFoundException("Patient inside ambulance");
+    }
+    if (patient->getState() == PatientState::IN_AMBULANCE) {
+        throw WrongPersonStateException("to be in ambulance", "rest");
+    }
     return std::move(patient);
+}
+
+std::unique_ptr<Paramedic> Ambulance::returnParamedic(std::string PESEL) {
+    auto it = std::find_if(paramedics.begin(), paramedics.end(), [PESEL](const std::unique_ptr<Paramedic>& paramedic) {
+        return paramedic->getPESEL() == PESEL;
+    });
+    if (it == paramedics.end()) {
+        throw ObjectNotFoundException("Paramedic with given PESEL");
+    }
+    if ((*it)->getActivity() == ParamedicActivity::IN_AMBULANCE) {
+        throw WrongPersonStateException("to be in ambulance", "rest");
+    }
+    auto tempParamedic = std::move(*it);
+    paramedics.erase(it);
+    return tempParamedic;
 }
 
 std::ostream& operator<<(std::ostream& os, const Ambulance& ambulance) {

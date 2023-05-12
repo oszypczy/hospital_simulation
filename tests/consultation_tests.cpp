@@ -17,8 +17,8 @@ TEST_CASE("consultation simple tests", "[consultation]")
         std::unique_ptr<Doctor> doctor = std::make_unique<Doctor>("03270607850", "Jan", "Kowalski", Sex::male, 29, DoctorSpecialty::GENERAL);
         consultation.addDoctor(std::move(doctor));
         CHECK(consultation.checkPersonel());
-        CHECK(consultation.getDoctor("03270607850").getName() == "Jan");
-        CHECK(consultation.getDoctor("03270607850").getSurname() == "Kowalski");
+        CHECK((*consultation.getDoctor("03270607850"))->getName() == "Jan");
+        CHECK((*consultation.getDoctor("03270607850"))->getSurname() == "Kowalski");
         std::unique_ptr<Patient> patient = std::make_unique<Patient>("03232407362", "Lidia", "Strzelecka", Sex::female, 20);
         CHECK(patient->getState() == PatientState::RESTING);
         patient->getHealthCard().planService(consultation.getID());
@@ -28,7 +28,7 @@ TEST_CASE("consultation simple tests", "[consultation]")
         CHECK(consultation.getPatient().getName() == "Lidia");
         CHECK(consultation.getPatient().getSurname() == "Strzelecka");
         CHECK(consultation.getPatient().getState() == PatientState::ON_APPOITMENT);
-        CHECK(consultation.getDoctor("03270607850").getActivity() == DoctorActivity::CONSULTING);
+        CHECK((*consultation.getDoctor("03270607850"))->getActivity() == DoctorActivity::CONSULTING);
         CHECK_THROWS_MATCHES(consultation.finishService(), std::logic_error, Catch::Matchers::Message("Invalid service state: IN_PROGRESS. Expected state: FINISHED"));
     }
 
@@ -44,7 +44,7 @@ TEST_CASE("consultation simple tests", "[consultation]")
         CHECK(consultation.getProgressTime() == 30);
         CHECK(consultation.getServiceState() == ServiceState::FINISHED);
         CHECK(consultation.getPatient().getState() == PatientState::RESTING);
-        CHECK(consultation.getDoctor("03270607850").getActivity() == DoctorActivity::RESTING);
+        CHECK((*consultation.getDoctor("03270607850"))->getActivity() == DoctorActivity::RESTING);
     }
 
     SECTION("testing different invalid scenarios and returning patient")
