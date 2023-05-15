@@ -56,6 +56,10 @@ ushort Human::getAge() const {
 }
 
 bool Human::didStateChaneged() const {
+    /*
+    Checks if the simulation state of the human has changed.
+    @return True if the simulation state has changed, false otherwise.
+    */
     return simulationState;
 }
 
@@ -84,6 +88,9 @@ void Human::setAge(ushort newAge) {
 }
 
 void Human::changeState() {
+    /*
+    Changes the simulation state of the human if something happened to him in current iteration.
+    */
     simulationState = !simulationState;
 }
 
@@ -99,5 +106,3 @@ std::ostream& operator<<(std::ostream& os, const Human& human) {
     os << human.name << " " << human.surname << " (" << human.PESEL << "), " << human.age << " years old.";
     return os;
 }
-
-// Localization logic could be added here

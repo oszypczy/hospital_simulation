@@ -12,6 +12,11 @@ Operation::Operation(ushort ID, unsigned short totalTime, bool NFZ, OperationTyp
 Operation::~Operation() {}
 
 bool Operation::checkPersonel() const {
+    /*
+    * Checks if the necessary personnel were added to operation
+    * (there must be at least one nurse and two doctors, one of which must be an anesthesiologist)
+    * @return True if the personnel are available, false otherwise.
+    */
     if (nurses.size() < 1) {
         return false;
     }
@@ -25,6 +30,14 @@ bool Operation::checkPersonel() const {
 }
 
 void Operation::startService(std::unique_ptr<Patient> newPatient) {
+    /*
+    * Starts the operation service with the provided patient.
+    * Changes the state of patient, nurses and doctors
+    * calls operator++() to start the operation
+    * @param newPatient The patient to start the operation service with.
+    * @throws WrongPersonelException if the necessary personnel are not available for the operation.
+    * @throws WrongPatientException if the patient's health card does not have it planned or the disease is not on the health card.
+    */
     if (!checkPersonel()){
         this->patient = std::move(newPatient);
         throw WrongPersonelException();
@@ -50,6 +63,11 @@ void Operation::startService(std::unique_ptr<Patient> newPatient) {
 }
 
 void Operation::continueService() {
+    /*
+    * Continues the operation service.
+    * Progresses the operation if it is in progress or finishes it if it is already finished.
+    * @throws WrongServiceStateException if the operation is not in progress or not ready to be progressed.
+    */
     if (state == ServiceState::IN_PROGRESS) {
         this->operator++();
     }
@@ -62,6 +80,12 @@ void Operation::continueService() {
 }
 
 void Operation::finishService() {
+    /*
+    * Finishes the operation service.
+    * Updates the state of the patient and the activity of the medical personnel.
+    * Cures the disease on the patient's health card.
+    * @throws WrongServiceStateException if the operation is already finished or not ready to be finished.
+    */
     if (state == ServiceState::FINISHED) {
         (*patient).setState(PatientState::RESTING);
         (*patient).getHealthCard().cureDisease(disease);
@@ -89,13 +113,18 @@ uint Operation::calculateCost() const {
     for (const auto& nurse : nurses) {
         cost += nurse->getHourlyWage();
     }
-    cost = ((100 * cost) / 60) * totalTime; // cost of the personel service
-    cost += 90000; // hospital fee for operation
-    cost = 1.23 * cost; // +22% VAT
+    cost = ((100 * cost) / 60) * totalTime;
+    cost += 90000;
+    cost = 1.23 * cost;
     return cost;
 }
 
 std::string Operation::print() const {
+    /*
+    * Generates a string representation of the operation service.
+    * Neccesary for virtualization of the print() method from MedicalService.
+    * @return The string representation of the operation service.
+    */
     std::stringstream os;
     if (patient){
        os << *patient << std::endl;

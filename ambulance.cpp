@@ -42,6 +42,10 @@ std::string Ambulance::getRegistrationNumber() const{
 }
 
 bool Ambulance::checkOccupancy() const{
+    /*
+    * Checks if the ambulance is occupied.
+    * @return True if the ambulance is occupied, false otherwise.
+    */
     return isOccupied;
 }
 
@@ -54,6 +58,12 @@ Patient& Ambulance::getPatient() const{
 }
 
 Paramedic& Ambulance::getParamedic(std::string PESEL) const{
+    /*
+    * Gets the paramedic with the specified PESEL.
+    * @param PESEL The PESEL of the paramedic to retrieve.
+    * @return A reference to the paramedic object.
+    * @throws ObjectNotFoundException If no paramedic with the given PESEL is found.
+    */
     for (auto& paramedic : paramedics) {
         if ((*paramedic).getPESEL() == PESEL) {
             return *paramedic;
@@ -63,6 +73,11 @@ Paramedic& Ambulance::getParamedic(std::string PESEL) const{
 }
 
 void Ambulance::operator++() {
+    /*
+    * Overloads the prefix increment operator to advance the progress time of the ambulance.
+    * Changes the state of the ambulance to RETURNED if the progress time reaches the total time.
+    * @throws WrongServiceStateException If the ambulance is not in the correct state for incrementing.
+    */
     if (state == AmbulanceState::IN_GARAGE) {
         throw WrongServiceStateException("IN_GARAGE", "ON_ROAD");
     }
@@ -74,6 +89,11 @@ void Ambulance::operator++() {
 }
 
 std::unique_ptr<Paramedic> Ambulance::addParamedic(std::unique_ptr<Paramedic> paramedic) {
+    /*
+    * Adds a paramedic to the ambulance (only when the paramedic is resting).
+    * @param paramedic A unique pointer to the Paramedic object to be added.
+    * @return A unique pointer to the added paramedic if the paramedic's activity is not IN_AMBULANCE, nullptr otherwise.
+    */
     if (paramedic->getActivity() == ParamedicActivity::RESTING){
         paramedics.push_back(std::move(paramedic));
         return nullptr;
@@ -82,6 +102,10 @@ std::unique_ptr<Paramedic> Ambulance::addParamedic(std::unique_ptr<Paramedic> pa
 }
 
 bool Ambulance::checkPersonel() const {
+    /*
+    * Checks if the ambulance has the required personnel.
+    * @return True if the ambulance has at least two paramedics, false otherwise.
+    */
     if (paramedics.size() < 2) {
         return false;
     }
@@ -89,6 +113,13 @@ bool Ambulance::checkPersonel() const {
 }
 
 void Ambulance::startIntervention(std::unique_ptr<Patient> newPatient) {
+    /*
+    * Starts an intervention by assigning a new patient to the ambulance.
+    * Changes the state of patient and paramedics.
+    * Calls operator++() to start the intervention.
+    * @param newPatient A unique pointer to the Patient object to be assigned.
+    * @throws WrongPersonelException If the ambulance does not have the required personnel.
+    */
     if (!checkPersonel()){
         this->patient = std::move(newPatient);
         throw WrongPersonelException();
@@ -104,6 +135,12 @@ void Ambulance::startIntervention(std::unique_ptr<Patient> newPatient) {
 }
 
 void Ambulance::continueIntervention() {
+    /*
+    * Continues the intervention by advancing the progress time of the ambulance.
+    * Throws an exception if the ambulance state is not valid for continuing the intervention.
+    * If the progress time reaches or exceeds the total time, the intervention is finished.
+    * @throws WrongServiceStateException If the ambulance is not in the correct state for continuing the intervention.
+    */
     if (state == AmbulanceState::ON_ROAD) {
         this->operator++();
     }
@@ -115,6 +152,11 @@ void Ambulance::continueIntervention() {
 }
 
 void Ambulance::finishIntervention() {
+    /*
+    * Finishes the intervention by updating the state of the ambulance and the associated personnel and patient.
+    * Throws an exception if the ambulance state is not valid for finishing the intervention.
+    * @throws WrongServiceStateException If the ambulance is not in the correct state for finishing the intervention.
+    */
     if (state == AmbulanceState::RETURNED) {
         (*patient).setState(PatientState::RESTING);
         for (auto& paramedic : paramedics) {
@@ -130,6 +172,12 @@ void Ambulance::finishIntervention() {
 }
 
 std::unique_ptr<Patient> Ambulance::returnPatient() {
+    /*
+    * Returns the patient from the ambulance.
+    * @return A unique pointer to the Patient object in the ambulance.
+    * @throws ObjectNotFoundException If no patient is found inside the ambulance.
+    * @throws WrongPersonStateException If the patient is not in the expected state to be returned.
+    */
     if (patient == nullptr) {
         throw ObjectNotFoundException("Patient inside ambulance");
     }
@@ -140,6 +188,13 @@ std::unique_ptr<Patient> Ambulance::returnPatient() {
 }
 
 std::unique_ptr<Paramedic> Ambulance::returnParamedic(std::string PESEL) {
+    /*
+    * Returns the paramedic with the specified PESEL from the ambulance.
+    * @param PESEL The PESEL of the paramedic to be returned.
+    * @return A unique pointer to the Paramedic object with the specified PESEL.
+    * @throws ObjectNotFoundException If no paramedic with the given PESEL is found.
+    * @throws WrongPersonStateException If the paramedic is not in the expected state to be returned.
+    */
     auto it = std::find_if(paramedics.begin(), paramedics.end(), [PESEL](const std::unique_ptr<Paramedic>& paramedic) {
         return paramedic->getPESEL() == PESEL;
     });
