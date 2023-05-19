@@ -9,7 +9,7 @@
 #include <memory>
 
 
-class Hospital : public Place{
+class Hospital{
     private:
         std::string name;
         std::list<std::unique_ptr<Place>> placesList;
@@ -25,3 +25,4 @@ class Hospital : public Place{
         void moveNurse();
 
 };
+// mozna po prostu miec liste czy wektor ludzi, ktorzy sa w szpitalu, zeby nie mozna bylo ich dodac 2 razy
