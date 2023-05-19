@@ -28,3 +28,4 @@ class Ward : public Place{
         void removeRoom();
 
 };
+// lista sal, id - dziedziczy po miejscu, 
