@@ -1,8 +1,7 @@
 #pragma once
 #include "place.h"
-#include "patient.h"
-#include "doctor.h"
-#include "nurse.h"
+#include "human.h"
+#include "serviceDataBase.h"
 
 #include <string>
 #include <list>
@@ -13,16 +12,10 @@ class Hospital{
     private:
         std::string name;
         std::list<std::unique_ptr<Place>> placesList;
-        std::list<std::unique_ptr<Patient>> patientsList;
-        std::list<std::unique_ptr<Nurse>> nursesList;
+        std::list<std::unique_ptr<Human>> humansList;
+        ServiceDataBase serviceDataBase;
     public:
-        Hospital(std::string name, std::list<std::unique_ptr<Place>> placesList, std::list<std::unique_ptr<Patient>> patientsList, std::list<std::unique_ptr<Nurse>> nursesList);
-        void addPlace();
-        void removePlace();
-        void addPatient();
-        void movePatient();
-        void addNurse();
-        void moveNurse();
-
+        Hospital(std::string name, std::list<std::unique_ptr<Place>> placesList, std::list<std::unique_ptr<Human>> humanList);
+        void addHuman();
+        void removeHuman();
 };
-// mozna po prostu miec liste czy wektor ludzi, ktorzy sa w szpitalu, zeby nie mozna bylo ich dodac 2 razy

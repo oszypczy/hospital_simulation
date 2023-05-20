@@ -9,8 +9,11 @@
 
 class Reception : public Place{
     private:
-        Nurse nurse;
+        std::unique_ptr<Nurse> nurse;
         std::deque<Patient> patentsQueue;
     public:
-
+        void addPatientToQueueFirst();
+        void addPatientToQueueLast();
+        void setNurse();
+        //moze usuwanie i dodawanie pielegniarki
 };

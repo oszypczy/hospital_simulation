@@ -14,7 +14,7 @@ class GeneralRoom : public Room{
     public:
         GeneralRoom(ushort maxBeds);
         bool isFull() const;
-        ushort checkOccupancy();
+        ushort checkOccupancy() const;
         void addPatient();
         void removePatient();
 

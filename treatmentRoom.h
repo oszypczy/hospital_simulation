@@ -10,15 +10,17 @@
 
 #include <memory>
 #include <list>
+#include  <deque>
 
 class TreatmentRoom : public Room{
     private:
         std::list<std::unique_ptr<Doctor>> doctors;
         std::list<std::unique_ptr<Nurse>> nurses;
+        std::deque<Patient> patientsQueue;
         Patient treatedPatient;
         Operation operation;
     public:
         void proceedTreatment();
-
-
+        void removePatient();
+        void addPatientToQueue();
 };

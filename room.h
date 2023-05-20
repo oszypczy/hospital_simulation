@@ -1,13 +1,10 @@
 #pragma once
 
 #include "place.h"
-#include "patient.h"
 
 #include <string>
-#include <list>
-#include <memory>
 
-class Room{
+class Room : public Place{
     private:
         ushort id;
     public:
