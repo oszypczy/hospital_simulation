@@ -9,15 +9,13 @@
 #include <list>
 #include <string>
 
-enum class WardType{
-    psychiatric
-};
+
 
 class Ward : public Place{
     private:
         std::string name;
         std::list<std::unique_ptr<Room>> roomList;
     public:
-
-
+        Ward(std::string id, std::string name, std::list<std::unique_ptr<Room>> roomList);
+        std::string getName() const;
 };
