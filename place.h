@@ -6,6 +6,7 @@ class Place{
     protected:
         std::string id;
     public:
+        Place(std::string id);
         ~Place();
-        virtual bool if_unique_id() = 0;
+        std::string getID();
 };
