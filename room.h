@@ -8,5 +8,6 @@ class Room : public Place{
     private:
         ushort id;
     public:
+        ~Room();
 
 };
