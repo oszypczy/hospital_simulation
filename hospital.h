@@ -15,7 +15,8 @@ class Hospital{
         std::list<std::unique_ptr<Human>> humansList;
         ServiceDataBase serviceDataBase;
     public:
-        Hospital(std::string name, std::list<std::unique_ptr<Place>> placesList, std::list<std::unique_ptr<Human>> humanList);
-        void addHuman();
-        void removeHuman();
+        Hospital(std::string name, std::list<std::unique_ptr<Place>> placesList, std::list<std::unique_ptr<Human>> humansList);
+        bool checkIfPlacesIDUnique() const;
+        void addHuman(std::unique_ptr<Human> human);
+        void removeHuman(std::unique_ptr<Human> human);
 };
