@@ -112,6 +112,14 @@ bool Ambulance::checkPersonel() const {
     return true;
 }
 
+void Ambulance::setState(AmbulanceState newState) {
+    /*
+    * Sets the state of the ambulance.
+    * @param newState The new state of the ambulance.
+    */
+    state = newState;
+}
+
 void Ambulance::startIntervention(std::unique_ptr<Patient> newPatient) {
     /*
     * Starts an intervention by assigning a new patient to the ambulance.
@@ -163,7 +171,6 @@ void Ambulance::finishIntervention() {
             (*paramedic).setActivity(ParamedicActivity::RESTING);
         }
         isOccupied = false;
-        state = AmbulanceState::IN_GARAGE;
     } else if (state == AmbulanceState::ON_ROAD) {
         throw WrongServiceStateException("ON_ROAD", "RETURNED");
     } else {
@@ -187,22 +194,18 @@ std::unique_ptr<Patient> Ambulance::returnPatient() {
     return std::move(patient);
 }
 
-std::unique_ptr<Paramedic> Ambulance::returnParamedic(std::string PESEL) {
+std::unique_ptr<Paramedic> Ambulance::returnParamedic() {
     /*
-    * Returns the paramedic with the specified PESEL from the ambulance.
-    * @param PESEL The PESEL of the paramedic to be returned.
+    * Returns the paramedic who finished the intervention.
     * @return A unique pointer to the Paramedic object with the specified PESEL.
     * @throws ObjectNotFoundException If no paramedic with the given PESEL is found.
     * @throws WrongPersonStateException If the paramedic is not in the expected state to be returned.
     */
-    auto it = std::find_if(paramedics.begin(), paramedics.end(), [PESEL](const std::unique_ptr<Paramedic>& paramedic) {
-        return paramedic->getPESEL() == PESEL;
+    auto it = std::find_if(paramedics.begin(), paramedics.end(), [](const std::unique_ptr<Paramedic>& paramedic) {
+        return paramedic->getActivity() == ParamedicActivity::RESTING;
     });
     if (it == paramedics.end()) {
-        throw ObjectNotFoundException("Paramedic with given PESEL");
-    }
-    if ((*it)->getActivity() == ParamedicActivity::IN_AMBULANCE) {
-        throw WrongPersonStateException("to be in ambulance", "rest");
+        throw ObjectNotFoundException("Paramedic who rests in ambulance");
     }
     auto tempParamedic = std::move(*it);
     paramedics.erase(it);
@@ -212,7 +215,8 @@ std::unique_ptr<Paramedic> Ambulance::returnParamedic(std::string PESEL) {
 std::ostream& operator<<(std::ostream& os, const Ambulance& ambulance) {
     os << "Ambulance " << ambulance.registrationNumber << " is ";
     if (ambulance.state == AmbulanceState::IN_GARAGE) {
-        os << "in garage" << std::endl;
+        os << "in garage and returned from intervention." << std::endl;
+        return os;
     } else if (ambulance.state == AmbulanceState::ON_ROAD) {
         os << "on road" << std::endl;
     }

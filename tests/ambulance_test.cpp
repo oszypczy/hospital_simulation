@@ -35,10 +35,10 @@ TEST_CASE("ambulance simple tests", "[ambulance]")
         CHECK_THROWS_MATCHES(ambulance.continueIntervention(), std::logic_error, Catch::Matchers::Message("Invalid service state: IN_GARAGE. Expected state: ON_ROAD"));
         CHECK(ambulance.getProgressTime() == 0);
         CHECK_THROWS_MATCHES(ambulance.returnPatient(), std::logic_error, Catch::Matchers::Message("Patient inside ambulance not found!"));
-        CHECK_THROWS_MATCHES(ambulance.returnParamedic("12345678901"), std::logic_error, Catch::Matchers::Message("Paramedic with given PESEL not found!"));
+        CHECK_THROWS_MATCHES(ambulance.returnParamedic(), std::logic_error, Catch::Matchers::Message("Paramedic who rests in ambulance not found!"));
         std::unique_ptr<Paramedic> paramedic1 = std::make_unique<Paramedic>("03270607850", "Jan", "Kowalski", Sex::male, 29, ParamedicActivity::IN_AMBULANCE);
         paramedic1 = ambulance.addParamedic(std::move(paramedic1));
-        CHECK_THROWS_MATCHES(ambulance.returnParamedic("03270607850"), std::logic_error, Catch::Matchers::Message("Paramedic with given PESEL not found!"));
+        CHECK_THROWS_MATCHES(ambulance.returnParamedic(), std::logic_error, Catch::Matchers::Message("Paramedic who rests in ambulance not found!"));
         CHECK(paramedic1->getName() == "Jan");
     }
 
@@ -64,7 +64,7 @@ TEST_CASE("ambulance simple tests", "[ambulance]")
         CHECK(ambulance.getParamedic("09876534879").getActivity() == ParamedicActivity::IN_AMBULANCE);
         CHECK(ambulance.getProgressTime() == 15);
         CHECK_THROWS_MATCHES(ambulance.returnPatient(), std::logic_error, Catch::Matchers::Message("Person must rest, not to be in ambulance"));
-        CHECK_THROWS_MATCHES(ambulance.returnParamedic("09876534879"), std::logic_error, Catch::Matchers::Message("Person must rest, not to be in ambulance"));
+        CHECK_THROWS_MATCHES(ambulance.returnParamedic(), std::logic_error, Catch::Matchers::Message("Paramedic who rests in ambulance not found!"));
     }
 
     SECTION("finish intervention")
@@ -85,13 +85,13 @@ TEST_CASE("ambulance simple tests", "[ambulance]")
         ambulance.continueIntervention();
         CHECK(ambulance.getProgressTime() == 60);
         CHECK_FALSE(ambulance.checkOccupancy());
-        CHECK(ambulance.getState() == AmbulanceState::IN_GARAGE);
+        CHECK(ambulance.getState() == AmbulanceState::RETURNED);
         CHECK(ambulance.getPatient().getState() == PatientState::RESTING);
         CHECK(ambulance.getParamedic("03270607850").getActivity() == ParamedicActivity::RESTING);
         CHECK(ambulance.getParamedic("09876534879").getActivity() == ParamedicActivity::RESTING);
         patient = ambulance.returnPatient();
         CHECK(patient->getState() == PatientState::RESTING);
-        paramedic1 = ambulance.returnParamedic("03270607850");
+        paramedic1 = ambulance.returnParamedic();
         CHECK(paramedic1->getName() == "Jan");
     }
 

@@ -34,6 +34,8 @@
                 "${workspaceFolder}/../wrongPersonStateException.cpp",
                 "${workspaceFolder}/../randomNumberGenerator.cpp",
                 "${workspaceFolder}/../randomPatientGenerator.cpp",
+                "${workspaceFolder}/../place.cpp",
+                "${workspaceFolder}/../ambulanceDispatch.cpp",
                 "-o",
                 "${workspaceFolder}/${workspaceFolderBasename}",
                 "-Wall",
