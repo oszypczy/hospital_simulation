@@ -4,7 +4,9 @@
 
 Hospital::Hospital(std::string name, std::list<std::unique_ptr<Place>> placesList,
                     std::list<std::unique_ptr<Human>> humanList):
-                    name(name), placesList(placesList), humansList(humansList){}
+                    name(name), placesList(placesList), humansList(humansList){
+                        //emptyNameException
+                    }
 
 bool Hospital::checkIfPlacesIDUnique()const{
     std::list<std::string> duplicatePlacesList;
