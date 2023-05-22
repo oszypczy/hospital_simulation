@@ -1,11 +1,15 @@
 #include "hospital.h"
+#include "invalidHumanPointer.h"
+#include "invalidHospitalName.h"
 
 #include <algorithm>
 
 Hospital::Hospital(std::string name, std::list<std::unique_ptr<Place>> placesList,
                     std::list<std::unique_ptr<Human>> humanList):
                     name(name), placesList(placesList), humansList(humansList){
-                        //emptyNameException
+                        if(name.empty()){
+                            throw InvalidHospitalName();
+                        }
                     }
 
 bool Hospital::checkIfPlacesIDUnique()const{
@@ -31,5 +35,5 @@ void Hospital::removeHuman(std::unique_ptr<Human> human) {
     if (it != humansList.end()) {
         humansList.erase(it);
     }
+    else throw InvalidHumanPointer();
 }
-
