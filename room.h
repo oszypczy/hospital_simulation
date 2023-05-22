@@ -5,9 +5,7 @@
 #include <string>
 
 class Room : public Place{
-    private:
-        ushort number;
     public:
-        Room(std::string id, ushort number);
+        Room(std::string id);
         ~Room();
 };
