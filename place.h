@@ -8,5 +8,5 @@ class Place{
     public:
         Place(std::string id);
         ~Place();
-        std::string getID();
+        std::string getID() const;
 };

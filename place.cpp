@@ -9,7 +9,7 @@ Place::Place(std::string id): id(id){
 
 Place::~Place(){}
 
-std::string Place::getID(){
+std::string Place::getID() const{
     return id;
 }
 
