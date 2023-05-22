@@ -12,10 +12,9 @@ class GeneralRoom : public Room{
         ushort attachedBeds;
         std::list<std::unique_ptr<Patient>> patientsList;
     public:
-        GeneralRoom(ushort maxBeds);
+        GeneralRoom(std::string id, ushort maxBeds);
         bool isFull() const;
         ushort checkOccupancy() const;
-        void addPatient();
-        void removePatient();
-
+        void addPatient(std::unique_ptr<Patient>);
+        void removePatient(std::unique_ptr<Patient>);
 };
