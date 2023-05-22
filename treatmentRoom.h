@@ -6,7 +6,6 @@
 #include "patient.h"
 #include "operation.h"
 #include "operation.h"
-//#include "employee.h" // tego nie ma ale mogloby sie przydac zeby przechowywac nizej w liscie pracownikow, chyba ze zrobic liste doktorow + liste pielegniarek
 
 #include <memory>
 #include <list>
@@ -20,7 +19,12 @@ class TreatmentRoom : public Room{
         Patient treatedPatient;
         Operation operation;
     public:
+        TreatmentRoom(std::string id);
         void proceedTreatment();
-        void removePatient();
-        void addPatientToQueue();
+        void addPatientToQueue(std::unique_ptr<Patient> patient);
+        void removePatient(std::unique_ptr<Patient> patient);
+        void addDoctor();
+        void removeDoctor();
+        void addNurse();
+        void removeNurse();
 };
