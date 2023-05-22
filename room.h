@@ -6,8 +6,8 @@
 
 class Room : public Place{
     private:
-        ushort id;
+        ushort number;
     public:
+        Room(std::string id, ushort number);
         ~Room();
-
 };
