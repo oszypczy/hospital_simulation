@@ -1,0 +1,49 @@
+{
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "C/C++: g++.exe kompiluj aktywny plik",
+            // "command": "C:\\msys64\\mingw64\\bin\\g++.exe",
+            "command": "/usr/bin/g++",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                //Wersja dla Linuxa:
+                "${workspaceFolder}/*.cpp",
+                //trzeba również dołączyć pliki znajdujące się "poziom wyżej", ale bez funkcji main (dlatego nie ma tu ../*.cpp, tylko wskazany jest konkretny plik)
+                "${workspaceFolder}/../human.cpp",
+                "${workspaceFolder}/../emptyAttributeException.cpp",
+                "${workspaceFolder}/../invalidPeselException.cpp",
+                "${workspaceFolder}/../zeroAgeException.cpp",
+                "${workspaceFolder}/../patient.cpp",
+                "${workspaceFolder}/../doctor.cpp",
+                "${workspaceFolder}/../nurse.cpp",
+                "${workspaceFolder}/../medicalService.cpp",
+                "${workspaceFolder}/../wrongServiceStateException.cpp",
+                "${workspaceFolder}/../consultation.cpp",
+                "${workspaceFolder}/../wrongPersonelException.cpp",
+                "${workspaceFolder}/../operation.cpp",
+                "${workspaceFolder}/../objectNotFoundException.cpp",
+                "${workspaceFolder}/../serviceDataBase.cpp",
+                "${workspaceFolder}/../objectAlreadyExistsException.cpp",
+                "${workspaceFolder}/../healthCard.cpp",
+                "-o",
+                "${workspaceFolder}/${workspaceFolderBasename}",
+                "-Wall",
+                "-Werror"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Zadanie wygenerowane przez debuger."
+        }
+    ],
+    "version": "2.0.0"
+}
