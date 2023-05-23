@@ -1,4 +1,5 @@
 #pragma once
+
 #include <string>
 
 class Place{
@@ -6,5 +7,6 @@ class Place{
         std::string id;
     public:
         Place(std::string id);
-        std::string getId() const;
+        ~Place();
+        std::string getID() const;
 };

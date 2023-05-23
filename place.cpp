@@ -1,7 +1,14 @@
 #include "place.h"
+#include "emptyIDException.h"
 
-Place::Place(std::string id) : id(id){};
+Place::Place(std::string id): id(id){
+    if(id.empty()){
+        throw EmptyIDException();
+    }
+}
 
-std::string Place::getId() const{
+Place::~Place(){}
+
+std::string Place::getID() const{
     return id;
 }
