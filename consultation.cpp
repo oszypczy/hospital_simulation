@@ -1,6 +1,7 @@
 #include "consultation.h"
 #include "wrongPersonelException.h"
 #include "wrongServiceStateException.h"
+#include "wrongPatientException.h"
 #include <iostream>
 #include <iomanip>
 
@@ -9,6 +10,11 @@ Consultation::Consultation(ushort ID, unsigned short totalTime, bool NFZ) : Medi
 Consultation::~Consultation() {}
 
 bool Consultation::checkPersonel() const {
+    /*
+    * Checks if the necessary personnel were added to consultation
+    * (there must be at least one doctor)
+    * @return True if the personnel are available, false otherwise.
+    */
     if (doctors.size() < 1) {
         return false;
     }
@@ -16,8 +22,21 @@ bool Consultation::checkPersonel() const {
 }
 
 void Consultation::startService(std::unique_ptr<Patient> newPatient) {
+    /*
+    * Starts the consultation service with the provided patient.
+    * Changes the state of patient and doctor
+    * calls operator++() to start the operation
+    * @param newPatient The patient to start the operation service with.
+    * @throws WrongPersonelException if the necessary personnel are not available for the consultation.
+    * @throws WrongPatientException if the patient's health card does not have it planned
+    */
     if (!checkPersonel()){
+        this->patient = std::move(newPatient);
         throw WrongPersonelException();
+    }
+    if (!(newPatient->getHealthCard().checkService(ID))){
+        this->patient = std::move(newPatient);
+        throw WrongPatientException();
     }
     this->state = ServiceState::IN_PROGRESS;
     this->patient = std::move(newPatient);
@@ -29,6 +48,11 @@ void Consultation::startService(std::unique_ptr<Patient> newPatient) {
 }
 
 void Consultation::continueService() {
+    /*
+    * Continues the consultation service.
+    * Progresses the consultation if it is in progress or finishes it if it is already finished.
+    * @throws WrongServiceStateException if the consultation is not in progress or not ready to be progressed.
+    */
     if (state == ServiceState::IN_PROGRESS) {
         this->operator++();
     }
@@ -40,6 +64,11 @@ void Consultation::continueService() {
 }
 
 void Consultation::finishService() {
+    /*
+    * Finishes the consultation service
+    * Updates the state of the patient and the activity of the medical personnel
+    * @throws WrongServiceStateException if the consultation is already finished or not ready to be finished.
+    */
     if (state == ServiceState::FINISHED) {
         (*patient).setState(PatientState::RESTING);
         for (auto& doctor : doctors) {
@@ -60,13 +89,18 @@ uint Consultation::calculateCost() const {
     for (const auto& doctor : doctors) {
         cost += doctor->getHourlyWage();
     }
-    cost = (100 * cost) / 60 * totalTime; // cost of the personel service
-    cost += 15000; // hospital fee for consulatation
-    cost = 1.2 * cost; // +20% VAT
+    cost = (100 * cost) / 60 * totalTime;
+    cost += 15000;
+    cost = 1.2 * cost;
     return cost;
 }
 
 std::string Consultation::print() const {
+    /*
+    * Generates a string representation of the consultation service.
+    * Neccesary for virtualization of the print() method from MedicalService.
+    * @return The string representation of the consltation service.
+    */
     std::stringstream os;
     if (patient){
         os << *patient << std::endl;

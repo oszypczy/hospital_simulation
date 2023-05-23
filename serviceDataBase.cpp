@@ -7,6 +7,13 @@
 #include <algorithm>
 
 void ServiceDataBase::addConsultation(ushort ID, unsigned short totalTime, bool NFZ){
+    /*
+    * Adds a consultation to the service database.
+    * @param ID The ID of the consultation.
+    * @param totalTime The total time of the consultation.
+    * @param NFZ A boolean indicating whether the consultation is covered by NFZ (National Health Fund).
+    * @throws ObjectAlreadyExistsException if a consultation with the given ID already exists in the database.
+    */
     std::unique_ptr<Consultation> addedConcultation = std::make_unique<Consultation>(ID, totalTime, NFZ);
     if (getServiceByID(ID) == medicalServices.end()){
         medicalServices.push_back(std::move(addedConcultation));
@@ -15,8 +22,17 @@ void ServiceDataBase::addConsultation(ushort ID, unsigned short totalTime, bool 
     }
 }
 
-void ServiceDataBase::addOperation(ushort ID, unsigned short totalTime, bool NFZ, OperationType type){
-    std::unique_ptr<Operation> addedOperation = std::make_unique<Operation>(ID, totalTime, NFZ, type);
+void ServiceDataBase::addOperation(ushort ID, unsigned short totalTime, bool NFZ, OperationType type, Diseases disease){
+    /*
+    * Adds an operation to the service database.
+    * @param ID The ID of the operation.
+    * @param totalTime The total time of the operation.
+    * @param NFZ A boolean indicating whether the operation is covered by NFZ (National Health Fund).
+    * @param type The type of operation.
+    * @param disease The disease associated with the operation.
+    * @throws ObjectAlreadyExistsException if an operation with the given ID already exists in the database.
+    */
+    std::unique_ptr<Operation> addedOperation = std::make_unique<Operation>(ID, totalTime, NFZ, type, disease);
     if (getServiceByID(ID) == medicalServices.end()){
         medicalServices.push_back(std::move(addedOperation));
     } else {
@@ -25,6 +41,11 @@ void ServiceDataBase::addOperation(ushort ID, unsigned short totalTime, bool NFZ
 }
 
 std::list<std::unique_ptr<MedicalService>>::iterator ServiceDataBase::getServiceByID(ushort givenID){
+    /*
+    * Retrieves a service iterator from the service database based on the given ID.
+    * @param givenID The ID of the service to retrieve.
+    * @return An iterator pointing to the service if found, or medicalServices.end() if not found.
+    */
     auto it = std::find_if(medicalServices.begin(), medicalServices.end(), [givenID](const std::unique_ptr<MedicalService>& service) {
         return service->getID() == givenID;
     });
@@ -32,6 +53,11 @@ std::list<std::unique_ptr<MedicalService>>::iterator ServiceDataBase::getService
 }
 
 void ServiceDataBase::removeService(ushort givenID){
+    /*
+    * Removes a service from the service database based on the given ID.
+    * @param givenID The ID of the service to remove.
+    * @throws ObjectNotFoundException if a service with the given ID is not found in the database.
+    */
     auto it = getServiceByID(givenID);
     if (it != medicalServices.end()){
         medicalServices.erase(it);
@@ -41,6 +67,10 @@ void ServiceDataBase::removeService(ushort givenID){
 }
 
 uint ServiceDataBase::calculateTotalCost() const{
+    /*
+    * Calculates the total cost of all services in the database.
+    * @return The total cost of all services.
+    */
     uint totalCost = 0;
     for(auto& service : medicalServices){
         totalCost += service->calculateCost();

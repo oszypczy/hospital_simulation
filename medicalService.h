@@ -26,11 +26,11 @@ class MedicalService {
         ServiceState getServiceState() const;
         void changeState(ServiceState state);
         unsigned short getProgressTime() const;
-        void addDoctor(std::unique_ptr<Doctor> doctor);
-        void addNurse(std::unique_ptr<Nurse> nurse);
+        std::unique_ptr<Doctor> addDoctor(std::unique_ptr<Doctor> doctor);
+        std::unique_ptr<Nurse> addNurse(std::unique_ptr<Nurse> nurse);
         Patient& getPatient() const;
-        Doctor& getDoctor(std::string PESEL) const;
-        Nurse& getNurse(std::string PESEL) const;
+        std::list<std::unique_ptr<Doctor>>::iterator getDoctor(std::string PESEL);
+        std::list<std::unique_ptr<Nurse>>::iterator getNurse(std::string PESEL);
         ushort getID() const;
         Doctor& getDoctor(DoctorSpecialty specialty) const;
         virtual uint calculateCost() const = 0;
@@ -39,5 +39,8 @@ class MedicalService {
         virtual void startService(std::unique_ptr<Patient> patient) = 0;
         virtual void continueService() = 0;
         virtual void finishService() = 0;
+        std::unique_ptr<Patient> returnPatient();
+        std::unique_ptr<Doctor> returnDoctor(std::string PESEL);
+        std::unique_ptr<Nurse> returnNurse(std::string PESEL);
     friend std::ostream& operator<<(std::ostream& os, const MedicalService& service);
 };

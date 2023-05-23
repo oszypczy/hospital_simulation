@@ -12,4 +12,3 @@ Place::~Place(){}
 std::string Place::getID() const{
     return id;
 }
-
