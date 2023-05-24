@@ -4,5 +4,5 @@
 
 class InvalidHumanPointer : public std::invalid_argument{
     public:
-        InvalidHumanPointer();
+        InvalidHumanPointer(std::string message);
 };
