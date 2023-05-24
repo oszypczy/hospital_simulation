@@ -57,20 +57,41 @@ void TreatmentRoom::removeNurse(std::unique_ptr<Nurse> nurse){
 }
 
 
-std::unique_ptr<Patient> TreatmentRoom::movePatient(){
-    auto tempPatient = std::move(patientsQueue.front());
-    patientsQueue.pop_front();
-    return tempPatient;
+std::unique_ptr<Patient> TreatmentRoom::movePatient(std::unique_ptr<Patient> patient){
+    auto it = std::find_if(patientsQueue.begin(), patientsQueue.end(), [&](const std::unique_ptr<Patient>& p) {
+        return *p == *patient;
+    });
+
+    if (it != patientsQueue.end()) {
+        patientsQueue.erase(it);
+    }
+    else throw InvalidHumanPointer("Patient");
+
+    return std::move(*it);
 }
 
-std::unique_ptr<Doctor> TreatmentRoom::moveDoctor(){
-    auto tempDoctor = std::move(doctors.front());
-    doctors.pop_front();
-    return tempDoctor;
+std::unique_ptr<Doctor> TreatmentRoom::moveDoctor(std::unique_ptr<Doctor> doctor){
+    auto it = std::find_if(doctors.begin(), doctors.end(), [&](const std::unique_ptr<Doctor>& d) {
+        return *d == *doctor;
+    });
+
+    if (it != doctors.end()) {
+        doctors.erase(it);
+    }
+    else throw InvalidHumanPointer("Doctor");
+
+    return std::move(*it);
 }
 
-std::unique_ptr<Nurse> TreatmentRoom::moveNurse(){
-    auto tempNurse = std::move(nurses.front());
-    nurses.pop_front();
-    return tempNurse;
+std::unique_ptr<Nurse> TreatmentRoom::moveNurse(std::unique_ptr<Nurse> nurse){
+    auto it = std::find_if(nurses.begin(), nurses.end(), [&](const std::unique_ptr<Nurse>& n) {
+        return *n == *nurse;
+    });
+
+    if (it != nurses.end()) {
+        nurses.erase(it);
+    }
+    else throw InvalidHumanPointer("Nurse");
+
+    return std::move(*it);
 }

@@ -15,8 +15,8 @@ class GeneralRoom : public Room{
         GeneralRoom(std::string id, ushort maxBeds);
         bool isFull() const;
         ushort checkOccupancy() const;
-        void addPatient(std::unique_ptr<Patient>);
-        void removePatient(std::unique_ptr<Patient>);
+        void addPatient(std::unique_ptr<Patient> patient);
+        void removePatient(std::unique_ptr<Patient> patient);
 
-        std::unique_ptr<Patient> movePatient();
+        std::unique_ptr<Patient> movePatient(std::unique_ptr<Patient> patient);
 };

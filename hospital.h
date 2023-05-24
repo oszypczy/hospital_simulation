@@ -26,4 +26,6 @@ class Hospital{
         bool checkIfPlacesIDUnique() const;
         void addHuman(std::unique_ptr<Human> human);
         void removeHuman(std::unique_ptr<Human> human);
+
+        std::unique_ptr<Human> moveHuman(std::unique_ptr<Human> human);
 };

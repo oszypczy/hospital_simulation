@@ -27,8 +27,15 @@ void GeneralRoom::removePatient(std::unique_ptr<Patient> patient){
     else throw InvalidHumanPointer("Patient");
 }
 
-std::unique_ptr<Patient> GeneralRoom::movePatient(){
-    auto patient = std::move(patientsList.front());
-    patientsList.pop_front();
-    return patient;
+std::unique_ptr<Patient> GeneralRoom::movePatient(std::unique_ptr<Patient> patient){
+    auto it = std::find_if(patientsList.begin(), patientsList.end(), [&](const std::unique_ptr<Patient>& p) {
+        return *p == *patient;
+    });
+
+    if (it != patientsList.end()) {
+        patientsList.erase(it);
+    }
+    else throw InvalidHumanPointer("Patient");
+
+    return std::move(*it);
 }

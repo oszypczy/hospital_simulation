@@ -23,13 +23,13 @@ class TreatmentRoom : public Room{
         TreatmentRoom(std::string id);
         void addPatientToQueue(std::unique_ptr<Patient> patient);
         void removePatient(std::unique_ptr<Patient> patient);
-        void addDoctor(std::unique_ptr<Doctor>);
-        void removeDoctor(std::unique_ptr<Doctor>);
-        void addNurse(std::unique_ptr<Nurse>);
-        void removeNurse(std::unique_ptr<Nurse>);
+        void addDoctor(std::unique_ptr<Doctor> doctor);
+        void removeDoctor(std::unique_ptr<Doctor> doctor);
+        void addNurse(std::unique_ptr<Nurse> nurse);
+        void removeNurse(std::unique_ptr<Nurse> nurse);
 
-        std::unique_ptr<Patient> movePatient();
-        std::unique_ptr<Doctor> moveDoctor();
-        std::unique_ptr<Nurse> moveNurse();
+        std::unique_ptr<Patient> movePatient(std::unique_ptr<Patient> patient);
+        std::unique_ptr<Doctor> moveDoctor(std::unique_ptr<Doctor> doctor);
+        std::unique_ptr<Nurse> moveNurse(std::unique_ptr<Nurse> nurse);
 
 };

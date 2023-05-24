@@ -38,5 +38,18 @@ void Hospital::removeHuman(std::unique_ptr<Human> human) {
     if (it != humansList.end()) {
         humansList.erase(it);
     }
-    else throw InvalidHumanPointer();
+    else throw InvalidHumanPointer("Human");
+}
+
+std::unique_ptr<Human> Hospital::moveHuman(std::unique_ptr<Human> human){
+    auto it = std::find_if(humansList.begin(), humansList.end(), [&](const std::unique_ptr<Human>& h) {
+        return *h == *human;
+    });
+
+    if (it != humansList.end()) {
+        humansList.erase(it);
+    }
+    else throw InvalidHumanPointer("Patient");
+
+    return std::move(*it);
 }
