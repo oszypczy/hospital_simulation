@@ -10,10 +10,12 @@
 class Reception : public Place{
     private:
         std::unique_ptr<Nurse> nurse;
-        std::deque<Patient> patentsQueue;
+        std::deque<std::unique_ptr<Patient>> patientsQueue;
     public:
-        void addPatientToQueueFirst();
-        void addPatientToQueueLast();
-        void setNurse();
-        //moze usuwanie i dodawanie pielegniarki
+        Reception(std::string id);
+        void addPatientToQueueFirst(std::unique_ptr<Patient> patient);
+        void addPatientToQueueLast(std::unique_ptr<Patient> patient);
+        void addNurse(std::unique_ptr<Nurse> nurse);
+        std::unique_ptr<Nurse> moveNurse();
+        std::unique_ptr<Patient> movePatient();
 };
