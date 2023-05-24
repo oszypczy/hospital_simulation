@@ -9,15 +9,16 @@
 
 #include <memory>
 #include <list>
-#include  <deque>
+#include <deque>
+#include <utility>
 
 class TreatmentRoom : public Room{
     private:
         std::list<std::unique_ptr<Doctor>> doctors;
         std::list<std::unique_ptr<Nurse>> nurses;
-        std::deque<Patient> patientsQueue;
-        Patient treatedPatient;
-        Operation operation;
+        std::deque<std::unique_ptr<Patient>> patientsQueue;
+        std::unique_ptr<Patient> treatedPatient;
+        std::unique_ptr<Operation> operation;
     public:
         TreatmentRoom(std::string id);
         void proceedTreatment();
