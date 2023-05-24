@@ -39,7 +39,7 @@ Hospital HospitalLoader::loadHospital(){
     for(const auto& doctor : humans["doctors"]){
         std::string PESEL = doctor["PESEL"].asString();
         std::string name = doctor["name"].asString();
-        std::string surname = doctor["surmane"].asString();
+        std::string surname = doctor["surname"].asString();
         Sex sex = static_cast<Sex>(doctor["sex"].asUInt());
         ushort age = doctor["age"].asUInt();
         DoctorSpecialty specialty = static_cast<DoctorSpecialty>(doctor["specialty"].asUInt());
@@ -50,7 +50,7 @@ Hospital HospitalLoader::loadHospital(){
     for(const auto& nurse : humans["nurses"]){
         std::string PESEL = nurse["PESEL"].asString();
         std::string name = nurse["name"].asString();
-        std::string surname = nurse["surmane"].asString();
+        std::string surname = nurse["surname"].asString();
         Sex sex = static_cast<Sex>(nurse["sex"].asUInt());
         ushort age = nurse["age"].asUInt();
 
@@ -60,7 +60,7 @@ Hospital HospitalLoader::loadHospital(){
     for(const auto& paramedic : humans["paramedics"]){
         std::string PESEL = paramedic["PESEL"].asString();
         std::string name = paramedic["name"].asString();
-        std::string surname = paramedic["surmane"].asString();
+        std::string surname = paramedic["surname"].asString();
         Sex sex = static_cast<Sex>(paramedic["sex"].asUInt());
         ushort age = paramedic["age"].asUInt();
 
