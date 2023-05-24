@@ -1,0 +1,101 @@
+{
+    "hospital": {
+        "name" : "Hospital Name",
+        "humans":
+        {
+            "doctors":[
+                {
+                    "PESEL": "12345678901",
+                    "name": "Jan",
+                    "surname": "Kowalski",
+                    "sex": 0,
+                    "age": 30,
+                    "specialty": 0
+                },
+                {
+                    "PESEL": "11223344556",
+                    "name": "Ola",
+                    "surname": "Pola",
+                    "sex": 1,
+                    "age": 27,
+                    "specialty": 1
+                }
+            ],
+            "nurses":[
+                {
+                    "PESEL": "22334455667",
+                    "name": "Kuba",
+                    "surname": "Zalewski",
+                    "sex": 0,
+                    "age": 55
+                },
+                {
+                    "PESEL": "23456789000",
+                    "name": "Basia",
+                    "surname": "Laskowska",
+                    "sex": 1,
+                    "age": 42
+                }
+            ],
+            "paramedics":[
+                {
+                    "PESEL": "33445566778",
+                    "name": "Artur",
+                    "surname": "Malanowski",
+                    "sex": 0,
+                    "age": 20
+                },
+                {
+                    "PESEL": "34567890000",
+                    "name": "Ewa",
+                    "surname": "Paniewska",
+                    "sex": 1,
+                    "age": 70
+                }
+            ]
+        },
+        "places":
+        {
+            "wards":[
+                {
+                    "id": "ward 1_id",
+                    "name": "ward 1_name",
+                    "generalrooms":[
+                        {
+                            "id": "generalRoom 1_id",
+                            "maxBeds": 4
+                        }
+                    ],
+                    "treatmentrooms":[
+                        {
+                            "id": "treatmentRoom 1_id"
+                        }
+                    ]
+                },
+                {
+                    "id": "ward 2_id",
+                    "name": "ward 2_name",
+                    "generalrooms":[
+                        {
+                            "id": "generalRoom 2_id",
+                            "maxBeds": 4
+                        }
+                    ],
+                    "treatmentrooms":[
+                        {
+                            "id": "treatmentRoom 2_id"
+                        }
+                    ]
+                }
+            ],
+            "reception":
+            {
+                "id": "reception_id"
+            },
+            "ambulancedispatch":
+            {
+                "id": "ambulanceDispatch_id"
+            }
+        }
+    }
+}
