@@ -17,4 +17,6 @@ class GeneralRoom : public Room{
         ushort checkOccupancy() const;
         void addPatient(std::unique_ptr<Patient>);
         void removePatient(std::unique_ptr<Patient>);
+
+        std::unique_ptr<Patient> movePatient();
 };
