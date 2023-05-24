@@ -13,16 +13,14 @@
                 // "-o",
                 // "${workspaceFolder}\\${workspaceFolderBasename}.exe",
                 //Wersja dla Linuxa:
-                "-I/home/andrzej/proi/projects/hospital/proi_23l_201_szpital/vcpkg/installed/x64-linux/include",
-                "-L/home/andrzej/proi/projects/hospital/proi_23l_201_szpital/vcpkg/installed/x64-linux/lib",
+                "-I${workspaceFolder}/vcpkg/installed/x64-linux/include",
+                "-L${workspaceFolder}/vcpkg/installed/x64-linux/lib",
                 "${workspaceFolder}/*.cpp",
                 "-ljsoncpp",
                 "-o",
                 "${workspaceFolder}/${workspaceFolderBasename}",
                 "-Wall",
-                "-Werror",
-                "-DCMAKE_TOOLCHAIN_FILE=/home/andrzej/proi/projects/hospital/proi_23l_201_szpital/vcpkg/scripts/buildsystems/vcpkg.cmake"
-
+                "-Werror"
             ],
             "options": {
                 "cwd": "${fileDirname}"
