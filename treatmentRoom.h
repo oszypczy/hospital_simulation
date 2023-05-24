@@ -21,11 +21,15 @@ class TreatmentRoom : public Room{
         std::unique_ptr<Operation> operation;
     public:
         TreatmentRoom(std::string id);
-        void proceedTreatment();
         void addPatientToQueue(std::unique_ptr<Patient> patient);
         void removePatient(std::unique_ptr<Patient> patient);
-        void addDoctor();
-        void removeDoctor();
-        void addNurse();
-        void removeNurse();
+        void addDoctor(std::unique_ptr<Doctor>);
+        void removeDoctor(std::unique_ptr<Doctor>);
+        void addNurse(std::unique_ptr<Nurse>);
+        void removeNurse(std::unique_ptr<Nurse>);
+
+        std::unique_ptr<Patient> movePatient();
+        std::unique_ptr<Doctor> moveDoctor();
+        std::unique_ptr<Nurse> moveNurse();
+
 };
