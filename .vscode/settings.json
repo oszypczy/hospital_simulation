@@ -61,6 +61,11 @@
         "variant": "cpp",
         "codecvt": "cpp",
         "list": "cpp",
-        "cinttypes": "cpp"
+        "cinttypes": "cpp",
+        "compare": "cpp",
+        "concepts": "cpp",
+        "numbers": "cpp",
+        "semaphore": "cpp",
+        "stop_token": "cpp"
     }
 }
