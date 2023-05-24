@@ -5,8 +5,11 @@
 #include <algorithm>
 
 Hospital::Hospital(std::string name, std::list<std::unique_ptr<Place>> placesList,
-                    std::list<std::unique_ptr<Human>> humanList):
-                    name(name), placesList(placesList), humansList(humansList){
+                    std::list<std::unique_ptr<Human>> humanList, std::unique_ptr<Reception> reception,
+                    std::unique_ptr<AmbulanceDispatch> ambulanceDispatch):
+                    name(name), placesList(std::move(placesList)), humansList(std::move(humanList)),
+                    reception(std::move(reception)), ambulanceDispatch(std::move(ambulanceDispatch))
+                    {
                         if(name.empty()){
                             throw InvalidHospitalName();
                         }
