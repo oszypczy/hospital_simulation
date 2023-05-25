@@ -95,3 +95,27 @@ std::unique_ptr<Nurse> TreatmentRoom::moveNurse(std::unique_ptr<Nurse> nurse){
 
     return std::move(*it);
 }
+
+void TreatmentRoom::setTreatedPatient(std::unique_ptr<Patient> patient){
+    this->treatedPatient = std::move(patient);
+}
+
+std::unique_ptr<Patient> TreatmentRoom::moveTreatedPatient(){
+    return std::move(treatedPatient);
+}
+
+std::list<std::unique_ptr<Doctor>>& TreatmentRoom::getDoctors(){
+    return doctors;
+}
+
+std::list<std::unique_ptr<Nurse>>& TreatmentRoom::getNurses(){
+    return nurses;
+}
+
+std::unique_ptr<Patient>& TreatmentRoom::getTreatedPatient(){
+    return treatedPatient;
+}
+
+std::unique_ptr<Operation>& TreatmentRoom::getOperation(){
+    return operation;
+}

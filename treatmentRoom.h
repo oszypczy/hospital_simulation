@@ -32,4 +32,11 @@ class TreatmentRoom : public Room{
         std::unique_ptr<Doctor> moveDoctor(std::unique_ptr<Doctor> doctor);
         std::unique_ptr<Nurse> moveNurse(std::unique_ptr<Nurse> nurse);
 
+        void setTreatedPatient(std::unique_ptr<Patient> patient);
+        std::unique_ptr<Patient> moveTreatedPatient();
+
+        std::list<std::unique_ptr<Doctor>>& getDoctors();
+        std::list<std::unique_ptr<Nurse>>& getNurses();
+        std::unique_ptr<Patient>& getTreatedPatient();
+        std::unique_ptr<Operation>& getOperation();
 };
