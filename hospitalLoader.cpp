@@ -4,6 +4,9 @@
 #include "paramedic.h"
 #include "reception.h"
 #include "ambulanceDispatch.h"
+#include "ward.h"
+#include "treatmentRoom.h"
+#include "consultationRoom.h"
 
 
 HospitalLoader::HospitalLoader(const std::string& jsonFile) : jsonFile(jsonFile) {}
@@ -34,7 +37,7 @@ Hospital HospitalLoader::loadHospital(){
     const Json::Value& places = val["hospital"]["places"];
 
 
-    std::list<std::unique_ptr<Human>> humansList;
+    std::list<std::unique_ptr<Doctor>> doctorsList;
 
     for(const auto& doctor : humans["doctors"]){
         std::string PESEL = doctor["PESEL"].asString();
@@ -44,8 +47,10 @@ Hospital HospitalLoader::loadHospital(){
         ushort age = doctor["age"].asUInt();
         DoctorSpecialty specialty = static_cast<DoctorSpecialty>(doctor["specialty"].asUInt());
 
-        humansList.push_back(std::make_unique<Doctor>(PESEL, name, surname, sex, age, specialty));
+        doctorsList.push_back(std::make_unique<Doctor>(PESEL, name, surname, sex, age, specialty));
     }
+
+    std::list<std::unique_ptr<Nurse>> nursesList;
 
     for(const auto& nurse : humans["nurses"]){
         std::string PESEL = nurse["PESEL"].asString();
@@ -54,52 +59,64 @@ Hospital HospitalLoader::loadHospital(){
         Sex sex = static_cast<Sex>(nurse["sex"].asUInt());
         ushort age = nurse["age"].asUInt();
 
-        humansList.push_back(std::make_unique<Nurse>(PESEL, name, surname, sex, age));
+        nursesList.push_back(std::make_unique<Nurse>(PESEL, name, surname, sex, age));
     }
 
-    for(const auto& paramedic : humans["paramedics"]){
+
+
+
+    std::list<std::unique_ptr<Ward>> wardsList;
+
+    for (const auto& ward : places["wards"]) {
+        std::string wardId = ward["id"].asString();
+        std::string wardName = ward["name"].asString();
+
+        TreatmentRoom treatmentRoom(ward["treatmentroom"]["id"].asString());
+        ConsultationRoom consultationRoom(ward["consultationroom"]["id"].asString());
+
+        std::list<std::unique_ptr<Room>> generalRoomList;
+
+        for (const auto& generalRoom : ward["generalrooms"]) {
+            std::string generalRoomId = generalRoom["id"].asString();
+            ushort maxBeds = generalRoom["maxBeds"].asUInt();
+
+            generalRoomList.push_back(std::make_unique<GeneralRoom>(generalRoomId, maxBeds));
+        }
+
+
+        wardsList.push_back(std::make_unique<Ward>(wardId, wardName, std::move(treatmentRoom),
+                            std::move(consultationRoom), std::move(generalRoomList)));
+    }
+
+    std::string receptionID = places["reception"]["id"].asString();
+    Reception reception(receptionID);
+
+    // tu jakos trzeba dodac pierwsza pielegniarke do recepcji
+
+    std::string ambulanceDispatchId = places["ambulancedispatch"]["id"].asString();
+    AmbulanceDispatch ambulanceDispatch(ambulanceDispatchId);
+
+
+    for(const auto& ambulance : places["ambulancedispatch"]["ambulances"]){
+        std::string ambulanceID = ambulance["id"].asString();
+
+        ambulanceDispatch.addAmbulance(std::make_unique<Ambulance>(ambulanceID));
+    }
+
+    for(const auto& paramedic : places["ambulancedispatch"]["paramedics"]){
         std::string PESEL = paramedic["PESEL"].asString();
         std::string name = paramedic["name"].asString();
         std::string surname = paramedic["surname"].asString();
         Sex sex = static_cast<Sex>(paramedic["sex"].asUInt());
         ushort age = paramedic["age"].asUInt();
 
-        humansList.push_back(std::make_unique<Paramedic>(PESEL, name, surname, sex, age));
+        ambulanceDispatch.addParamedic(std::make_unique<Paramedic>(PESEL, name, surname, sex, age));
     }
 
 
-    std::list<std::unique_ptr<Place>> placesList;
 
-    for (const auto& ward : places["wards"]) {
-        std::string wardId = ward["id"].asString();
-        std::string wardName = ward["name"].asString();
-
-        std::list<std::unique_ptr<Room>> roomsList;
-
-        for (const auto& generalRoom : ward["generalrooms"]) {
-            std::string generalRoomId = generalRoom["id"].asString();
-            ushort maxBeds = generalRoom["maxBeds"].asUInt();
-
-            roomsList.push_back(std::make_unique<GeneralRoom>(generalRoomId, maxBeds));
-        }
-
-        for (const auto& treatmentRoom : ward["treatmentrooms"]) {
-            std::string treatmentRoomId = treatmentRoom["id"].asString();
-
-            roomsList.push_back(std::make_unique<TreatmentRoom>(treatmentRoomId));
-        }
-
-        placesList.push_back(std::make_unique<Ward>(wardId, wardName, std::move(roomsList)));
-    }
-
-    std::string receptionId = places["reception"]["id"].asString();
-
-    std::string ambulanceDispatchId = places["ambulancedispatch"]["id"].asString();
-
-
-    Hospital hospital(hospitalName, std::move(placesList), std::move(humansList),
-                      std::make_unique<Reception>(receptionId),
-                      std::make_unique<AmbulanceDispatch>(ambulanceDispatchId));
+    Hospital hospital(hospitalName, std::move(wardsList), std::move(doctorsList), std::move(nursesList),
+                      std::make_unique<Reception>(reception), std::make_unique<AmbulanceDispatch>(ambulanceDispatch));
 
     return hospital;
 }
