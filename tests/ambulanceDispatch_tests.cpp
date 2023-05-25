@@ -4,7 +4,7 @@
 TEST_CASE("ambulanceDispatch simple tests", "[ambulanceDispatch]")
 {
     AmbulanceDispatch dispatch("9878890543");
-    CHECK(dispatch.getId() == "9878890543");
+    CHECK(dispatch.getID() == "9878890543");
 
     std::unique_ptr<Ambulance> ambulance = std::make_unique<Ambulance>("CB062MH");
     dispatch.addAmbulance(std::move(ambulance));

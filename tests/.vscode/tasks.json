@@ -36,6 +36,7 @@
                 "${workspaceFolder}/../randomPatientGenerator.cpp",
                 "${workspaceFolder}/../place.cpp",
                 "${workspaceFolder}/../ambulanceDispatch.cpp",
+                "${workspaceFolder}/../emptyIDException.cpp",
                 "-o",
                 "${workspaceFolder}/${workspaceFolderBasename}",
                 "-Wall",
