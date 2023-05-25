@@ -39,3 +39,7 @@ std::unique_ptr<Patient> GeneralRoom::movePatient(std::unique_ptr<Patient> patie
 
     return std::move(*it);
 }
+
+std::list<std::unique_ptr<Patient>>& GeneralRoom::getPatientsList(){
+    return patientsList;
+}

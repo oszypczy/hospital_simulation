@@ -19,4 +19,6 @@ class GeneralRoom : public Room{
         void removePatient(std::unique_ptr<Patient> patient);
 
         std::unique_ptr<Patient> movePatient(std::unique_ptr<Patient> patient);
+
+        std::list<std::unique_ptr<Patient>>& getPatientsList();
 };
