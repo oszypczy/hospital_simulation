@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include <fstream>
-#include </home/andrzej/proi/projects/hospital/proi_23l_201_szpital/vcpkg/installed/x64-linux/include/json/json.h>
+#include <json/json.h>
 
 class HospitalLoader {
     private:
