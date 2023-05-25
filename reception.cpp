@@ -15,9 +15,7 @@ void Reception::addNurse(std::unique_ptr<Nurse> nurse){
 }
 
 std::unique_ptr<Nurse> Reception::moveNurse(){
-    auto tempNurse = std::move(nurse);
-    nurse = nullptr;
-    return tempNurse;
+    return std::move(nurse);
 }
 
 std::unique_ptr<Patient> Reception::movePatient(){
