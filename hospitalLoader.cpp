@@ -71,8 +71,9 @@ Hospital HospitalLoader::loadHospital(){
         std::string wardId = ward["id"].asString();
         std::string wardName = ward["name"].asString();
 
-        TreatmentRoom treatmentRoom(ward["treatmentroom"]["id"].asString());
-        ConsultationRoom consultationRoom(ward["consultationroom"]["id"].asString());
+        auto treatmentRoom = std::make_unique<TreatmentRoom>(ward["treatmentroom"]["id"].asString());
+        auto consultationRoom = std::make_unique<ConsultationRoom>(ward["consultationroom"]["id"].asString());
+
 
         std::list<std::unique_ptr<Room>> generalRoomList;
 
@@ -89,18 +90,18 @@ Hospital HospitalLoader::loadHospital(){
     }
 
     std::string receptionID = places["reception"]["id"].asString();
-    Reception reception(receptionID);
+    auto reception = std::make_unique<Reception>(receptionID);
 
     // tu jakos trzeba dodac pierwsza pielegniarke do recepcji
 
     std::string ambulanceDispatchId = places["ambulancedispatch"]["id"].asString();
-    AmbulanceDispatch ambulanceDispatch(ambulanceDispatchId);
+    auto ambulanceDispatch = std::make_unique<AmbulanceDispatch>(ambulanceDispatchId);
 
 
     for(const auto& ambulance : places["ambulancedispatch"]["ambulances"]){
-        std::string ambulanceID = ambulance["id"].asString();
+        std::string ambulanceID = ambulance["registrationNumber"].asString();
 
-        ambulanceDispatch.addAmbulance(std::make_unique<Ambulance>(ambulanceID));
+        ambulanceDispatch->addAmbulance(std::make_unique<Ambulance>(ambulanceID));
     }
 
     for(const auto& paramedic : places["ambulancedispatch"]["paramedics"]){
@@ -110,13 +111,14 @@ Hospital HospitalLoader::loadHospital(){
         Sex sex = static_cast<Sex>(paramedic["sex"].asUInt());
         ushort age = paramedic["age"].asUInt();
 
-        ambulanceDispatch.addParamedic(std::make_unique<Paramedic>(PESEL, name, surname, sex, age));
+        ambulanceDispatch->addParamedic(std::make_unique<Paramedic>(PESEL, name, surname, sex, age));
     }
 
 
 
     Hospital hospital(hospitalName, std::move(wardsList), std::move(doctorsList), std::move(nursesList),
-                      std::make_unique<Reception>(reception), std::make_unique<AmbulanceDispatch>(ambulanceDispatch));
+                      std::move(reception), std::move(ambulanceDispatch));
+
 
     return hospital;
 }
