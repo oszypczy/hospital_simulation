@@ -104,6 +104,10 @@ std::unique_ptr<Patient> TreatmentRoom::moveTreatedPatient(){
     return std::move(treatedPatient);
 }
 
+void TreatmentRoom::setOperation(std::unique_ptr<Operation> operation) {
+    this->operation = std::move(operation);
+}
+
 std::list<std::unique_ptr<Doctor>>& TreatmentRoom::getDoctors(){
     return doctors;
 }

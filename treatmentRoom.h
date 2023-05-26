@@ -35,6 +35,8 @@ class TreatmentRoom : public Room{
         void setTreatedPatient(std::unique_ptr<Patient> patient);
         std::unique_ptr<Patient> moveTreatedPatient();
 
+        void setOperation(std::unique_ptr<Operation> operation);
+
         std::list<std::unique_ptr<Doctor>>& getDoctors();
         std::list<std::unique_ptr<Nurse>>& getNurses();
         std::unique_ptr<Patient>& getTreatedPatient();
