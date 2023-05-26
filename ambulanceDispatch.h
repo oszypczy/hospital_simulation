@@ -20,5 +20,6 @@ class AmbulanceDispatch : public Place {
         std::string sendAmbulance(std::unique_ptr<Patient> patient);
         void constinueAllInterventions();
         std::string checkIfFinishedIntervention();
+        std::unique_ptr<Patient> getPatient();
 };
 

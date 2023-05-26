@@ -71,12 +71,17 @@ void AmbulanceDispatch::constinueAllInterventions(){
     }
 }
 
+std::unique_ptr<Patient> AmbulanceDispatch::getPatient(){
+    return std::move(patient);
+}
+
 std::string AmbulanceDispatch::checkIfFinishedIntervention(){
     auto it = std::find_if(ambulances.begin(), ambulances.end(), [](const std::unique_ptr<Ambulance>& ambulance){
         return ambulance->getState() == AmbulanceState::RETURNED;
     });
     if (it != ambulances.end()){
         (*it)->setState(AmbulanceState::IN_GARAGE);
+        (*it)->resetProgressTime();
         paramedics.push_back((*it)->returnParamedic());
         paramedics.push_back((*it)->returnParamedic());
         patient = (*it)->returnPatient();

@@ -212,23 +212,26 @@ std::unique_ptr<Paramedic> Ambulance::returnParamedic() {
     return tempParamedic;
 }
 
+void Ambulance::resetProgressTime(){
+    /*
+    * Resets the progress time of the ambulance.
+    */
+    progressTime = 0;
+}
+
 std::ostream& operator<<(std::ostream& os, const Ambulance& ambulance) {
-    os << "Ambulance " << ambulance.registrationNumber << " is ";
+    os << "Ambulance " << ambulance.registrationNumber;
     if (ambulance.state == AmbulanceState::IN_GARAGE) {
-        os << "in garage and returned from intervention." << std::endl;
+        os << " is in garage and returned from intervention." << std::endl;
         return os;
     } else if (ambulance.state == AmbulanceState::ON_ROAD) {
-        os << "on road" << std::endl;
+        os << " went to the intervention. People inside:" << std::endl;
     }
-    os << "Progress time: " << ambulance.progressTime << std::endl;
-    os << "Estimated total time: " << ambulance.totalTime << std::endl;
-    os << "STAFF: " << std::endl;
     for (const auto& paramedic : ambulance.paramedics) {
-        os << "\t" << (*paramedic) << std::endl;
+        os << "   " << (*paramedic) << std::endl;
     }
     if (ambulance.isOccupied) {
-        os << "PATIENT: " << std::endl;
-        os << "\t" << (*ambulance.patient) << std::endl;
+        os << "   " << (*ambulance.patient) << std::endl;
     }
     return os;
 }

@@ -26,6 +26,7 @@ class Ambulance{
         void finishIntervention();
         bool checkPersonel() const;
         unsigned short getProgressTime() const;
+        void resetProgressTime();
         AmbulanceState getState() const;
         void setState(AmbulanceState newState);
         unsigned short getTotalTime() const;
