@@ -75,7 +75,7 @@ Hospital HospitalLoader::loadHospital(){
         auto consultationRoom = std::make_unique<ConsultationRoom>(ward["consultationroom"]["id"].asString());
 
 
-        std::list<std::unique_ptr<Room>> generalRoomList;
+        std::list<std::unique_ptr<GeneralRoom>> generalRoomList;
 
         for (const auto& generalRoom : ward["generalrooms"]) {
             std::string generalRoomId = generalRoom["id"].asString();
