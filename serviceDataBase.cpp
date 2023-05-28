@@ -78,6 +78,14 @@ uint ServiceDataBase::calculateTotalCost() const{
     return totalCost;
 }
 
+std::list<std::unique_ptr<MedicalService>>& ServiceDataBase::getMedicalServices(){
+    /*
+    * Retrieves the medical services from the database.
+    * @return The medical services from the database.
+    */
+    return medicalServices;
+}
+
 std::ostream& operator<<(std::ostream& os, const ServiceDataBase& database){
     if (database.medicalServices.empty()){
         os << "No services in database" << std::endl;
