@@ -13,16 +13,21 @@ bool GeneralRoom::isFull() const{
 ushort GeneralRoom::checkOccupancy() const{
     return attachedBeds;
 }
+
 void GeneralRoom::addPatient(std::unique_ptr<Patient> patient){
-        patientsList.push_back(std::move(patient));
+    patientsPESELList.push_back(patient->getPESEL());
+    patientsList.push_back(std::move(patient));
 }
+
 void GeneralRoom::removePatient(std::unique_ptr<Patient> patient){
     auto it = std::find_if(patientsList.begin(), patientsList.end(), [&](const std::unique_ptr<Patient>& p) {
         return *p == *patient;
     });
 
     if (it != patientsList.end()) {
+        patientsPESELList.remove(patient->getPESEL());
         patientsList.erase(it);
+        attachedBeds--;
     }
     else throw InvalidHumanPointer("Patient");
 }
@@ -42,4 +47,8 @@ std::unique_ptr<Patient> GeneralRoom::movePatient(std::unique_ptr<Patient> patie
 
 std::list<std::unique_ptr<Patient>>& GeneralRoom::getPatientsList(){
     return patientsList;
+}
+
+std::list<std::string>& GeneralRoom::getPatientsPESELList(){
+    return patientsPESELList;
 }

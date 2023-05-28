@@ -11,6 +11,7 @@ class GeneralRoom : public Room{
         ushort maxBeds;
         ushort attachedBeds;
         std::list<std::unique_ptr<Patient>> patientsList;
+        std::list<std::string> patientsPESELList;
     public:
         GeneralRoom(std::string id, ushort maxBeds);
         bool isFull() const;
@@ -21,4 +22,6 @@ class GeneralRoom : public Room{
         std::unique_ptr<Patient> movePatient(std::unique_ptr<Patient> patient);
 
         std::list<std::unique_ptr<Patient>>& getPatientsList();
+
+        std::list<std::string>& getPatientsPESELList();
 };
