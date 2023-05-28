@@ -15,7 +15,7 @@ class Hospital{
         std::list<std::unique_ptr<Ward>> wardsList;
         std::list<std::unique_ptr<Doctor>> doctorsList;
         std::list<std::unique_ptr<Nurse>> nursesList;
-        std::unique_ptr<ServiceDataBase> serviceDataBase;
+        // std::unique_ptr<ServiceDataBase> serviceDataBase;
         std::unique_ptr<Reception> reception;
         std::unique_ptr<AmbulanceDispatch> ambulanceDispatch;
     public:
@@ -38,6 +38,6 @@ class Hospital{
         std::list<std::unique_ptr<Nurse>>& getNursesList();
         std::unique_ptr<Reception>& getReception();
         std::unique_ptr<AmbulanceDispatch>& getAmbulanceDispatch();
-        std::unique_ptr<ServiceDataBase>& getServiceDataBase();
+        // std::unique_ptr<ServiceDataBase>& getServiceDataBase();
         std::string getName() const;
 };
