@@ -6,6 +6,7 @@
 #include "room.h"
 #include "treatmentRoom.h"
 #include "consultationRoom.h"
+#include "generalRoom.h"
 
 #include <memory>
 #include <list>
@@ -18,12 +19,12 @@ class Ward : public Place{
         std::string name;
         std::unique_ptr<TreatmentRoom> treatmentRoom;
         std::unique_ptr<ConsultationRoom> consultationRoom;
-        std::list<std::unique_ptr<Room>> generalRoomList;
+        std::list<std::unique_ptr<GeneralRoom>> generalRoomList;
     public:
         Ward(std::string id, std::string name, std::unique_ptr<TreatmentRoom> treatmentRoom,
-            std::unique_ptr<ConsultationRoom> consultationRoom, std::list<std::unique_ptr<Room>> generalRoomList);
+            std::unique_ptr<ConsultationRoom> consultationRoom, std::list<std::unique_ptr<GeneralRoom>> generalRoomList);
         std::string getName() const;
-        std::list<std::unique_ptr<Room>>& getGeneralRoomList();
+        std::list<std::unique_ptr<GeneralRoom>>& getGeneralRoomList();
         std::unique_ptr<TreatmentRoom>& getTreatmentRoom();
         std::unique_ptr<ConsultationRoom>& getConsultationRoom();
 };
