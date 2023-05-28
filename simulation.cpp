@@ -118,6 +118,10 @@ void Simulation::goThroughGeneralRooms(){
                 }
             }
         }
+
+        // tu jeszcze trzeba ogarnac jak zarzadzac zliczaniem pacjentow w salach
+        // mozna miec liste peseli, i jak pacjent wychodzi to go usuwamy z listy
+        // a jak wraca ze specjalistycznej to mamy jego pesel i dodajemy do poprawnej sali a nie do losowej
 }
 
 
