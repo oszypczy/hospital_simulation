@@ -3,8 +3,6 @@
 Reception::Reception(std::string id): Place(id){}
 
 void Reception::addPatientToQueueFirst(std::unique_ptr<Patient> patient){
-    patientsQueue.push_front(std::move(patient));
-
     RandomNumberGenerator generator;
 
     if (generator.chooseNumber(0, 1) == 0){
@@ -38,11 +36,10 @@ void Reception::addPatientToQueueFirst(std::unique_ptr<Patient> patient){
         serviceDataBase.addOperation(serviceID, totalTime, NFZ, type, disease);
         patient->getHealthCard().planService(serviceID);
     }
+    patientsQueue.push_front(std::move(patient));
 }
 
 void Reception::addPatientToQueueLast(std::unique_ptr<Patient> patient){
-    patientsQueue.push_back(std::move(patient));
-
     RandomNumberGenerator generator;
 
     if (generator.chooseNumber(0, 1) == 0){
@@ -76,6 +73,7 @@ void Reception::addPatientToQueueLast(std::unique_ptr<Patient> patient){
         serviceDataBase.addOperation(serviceID, totalTime, NFZ, type, disease);
         patient->getHealthCard().planService(serviceID);
     }
+    patientsQueue.push_back(std::move(patient));
 }
 
 void Reception::addNurse(std::unique_ptr<Nurse> nurse){
