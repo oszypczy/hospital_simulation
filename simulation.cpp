@@ -56,7 +56,7 @@ void Simulation::checkForReturnedAmbulances(){
     }
 }
 
-void Simulation::printMessages() {
+void Simulation::printMessages(){
     int count = 1;
     for (auto message : messages) {
         if (count > 1) {
@@ -68,7 +68,7 @@ void Simulation::printMessages() {
     std::cout << std::endl;
 }
 
-void Simulation::run() {
+void Simulation::run(){
     while (iterations--){
         messages.push_back(getDateTime());
         incrementDateTime();
@@ -87,14 +87,7 @@ void Simulation::run() {
     }
 }
 
-
-
-
 void Simulation::goThroughGeneralRooms(){
-    // ta klasa przechodzi po pacjentach z sal
-    // jeśli nie mają żadnych chorób - wychodzą ze szpitala
-    // jeśli ma zaplanowaną operację - idzie do sali operacyjnej
-    // jeśli ma zaplanowaną wizytę - idzie do gabinetu
     for(auto& ward : hospital->getWardsList()){
         for(auto& room : ward->getGeneralRoomList()){
             for(auto& patient : room->getPatientsList()){
@@ -118,13 +111,15 @@ void Simulation::goThroughGeneralRooms(){
                 }
             }
         }
-
-        // tu jeszcze trzeba ogarnac jak zarzadzac zliczaniem pacjentow w salach
-        // mozna miec liste peseli, i jak pacjent wychodzi to go usuwamy z listy
-        // a jak wraca ze specjalistycznej to mamy jego pesel i dodajemy do poprawnej sali a nie do losowej
+    }
 }
 
+// void Simulation::goThroughTreatmentQueue(){
+//     for(auto& ward : hospital->getWardsList()){
+//         auto& treatmentRoom = ward->getTreatmentRoom();
 
+//     }
+// }
 
 
 
