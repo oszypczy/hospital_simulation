@@ -82,3 +82,11 @@ void HealthCard::finishService(ushort serviceID) {
         throw ObjectNotFoundException("Service with given ID");
     }
 }
+
+std::vector<Diseases>& HealthCard::getDiseases(){
+    return diseases;
+}
+
+std::vector<ushort>& HealthCard::getServicesPlanned(){
+    return servicesPlanned;
+}

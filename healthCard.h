@@ -18,4 +18,7 @@ class HealthCard{
         void planService(ushort serviceID);
         void finishService(ushort serviceID);
         bool checkService(ushort serviceID) const;
+
+        std::vector<Diseases>& getDiseases();
+        std::vector<ushort>& getServicesPlanned();
 };

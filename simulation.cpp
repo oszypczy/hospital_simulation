@@ -86,3 +86,44 @@ void Simulation::run() {
         std::this_thread::sleep_for(std::chrono::seconds(waitTime));
     }
 }
+
+
+
+
+void Simulation::goThroughGeneralRooms(){
+    // ta klasa przechodzi po pacjentach z sal
+    // jeśli nie mają żadnych chorób - wychodzą ze szpitala
+    // jeśli ma zaplanowaną operację - idzie do sali operacyjnej
+    // jeśli ma zaplanowaną wizytę - idzie do gabinetu
+    for(auto& ward : hospital->getWardsList()){
+        for(auto& room : ward->getGeneralRoomList()){
+            for(auto& patient : room->getPatientsList()){
+                if(patient->getHealthCard().getDiseases().empty()){
+                    std::stringstream ss;
+                    ss << *patient << " - left hospital." << std::endl;
+                    messages.push_back(ss.str());
+                    room->removePatient(std::move(patient));
+                } else if(typeid(patient->getHealthCard().getServicesPlanned()[0]) == typeid(Consultation)){
+                    std::stringstream ss;
+                    ss << *patient << " - moved to Consultation Room queue" << std::endl;
+                    messages.push_back(ss.str());
+
+                    ward->getConsultationRoom()->addPatientToQueue(room->movePatient(std::move(patient)));
+                } else {
+                    std::stringstream ss;
+                    ss << *patient << " - moved to Treatment(Operation) Room queue" << std::endl;
+                    messages.push_back(ss.str());
+
+                    ward->getTreatmentRoom()->addPatientToQueue(room->movePatient(std::move(patient)));
+                }
+            }
+        }
+}
+
+
+
+
+
+
+
+
