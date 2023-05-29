@@ -1,0 +1,40 @@
+Hospital Name - simulation started.
+
+Date and time: 01.01.2023, 12:00
+Patient: Stanisław Szewczyk (14874279502), 82 years old. - just came to hospital.
+
+Date and time: 01.01.2023, 12:15
+Patient: Anna Sikorska (32279547460), 37 years old. - just came to hospital.
+
+Date and time: 01.01.2023, 12:30
+
+Date and time: 01.01.2023, 12:45
+Patient: Krzysztof Sadowski (16497408893), 68 years old. - just came to hospital.
+Ambulance WA00001 went to the intervention. People inside:
+   Paramedic: Artur Malanowski (33445566778).
+   Paramedic: Ewa Paniewska (34567890000).
+   Patient: Barbara Walczak (30178605583), 59 years old.
+
+Date and time: 01.01.2023, 13:00
+Patient: Adam Zieliński (43133191083), 86 years old. - just came to hospital.
+Ambulance WA00001 is in garage and returned from intervention.
+Patient: Barbara Walczak (30178605583), 59 years old. - just came to hospital by ambulance.
+
+Date and time: 01.01.2023, 13:15
+
+Date and time: 01.01.2023, 13:30
+Patient: Władysław Wójcik (72527555028), 6 years old. - just came to hospital.
+Ambulance WA00001 went to the intervention. People inside:
+   Paramedic: Artur Malanowski (33445566778).
+   Paramedic: Ewa Paniewska (34567890000).
+   Patient: Henryk Włodarczyk (03857527670), 53 years old.
+
+Date and time: 01.01.2023, 13:45
+Patient: Joanna Kucharska (00608911493), 48 years old. - just came to hospital.
+Ambulance WA00001 is in garage and returned from intervention.
+Patient: Henryk Włodarczyk (03857527670), 53 years old. - just came to hospital by ambulance.
+
+Date and time: 01.01.2023, 14:00
+
+Date and time: 01.01.2023, 14:15
+
