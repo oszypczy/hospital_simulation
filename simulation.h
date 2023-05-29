@@ -28,7 +28,6 @@ class Simulation {
         void newPatientInReception();
         void patientCalled911();
         void checkForReturnedAmbulances();
-
         void goThroughGeneralRooms();
         void goThroughTreatmentQueue();
         void goThroughConsultationQueue();

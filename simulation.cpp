@@ -1,4 +1,5 @@
 #include "simulation.h"
+#include <fstream>
 #include "objectNotFoundException.h"
 
 Simulation::Simulation(std::unique_ptr<Hospital> hospital, unsigned int iterations, ushort waitTime, std::string outputFileName)
@@ -68,7 +69,20 @@ void Simulation::printMessages(){
     std::cout << std::endl;
 }
 
+void Simulation::writeMessagesToFile(){
+    std::ofstream outputFile(outputFileName, std::ios::app);
+    for (const auto& message : messages) {
+        outputFile << message;
+    }
+    outputFile << std::endl;
+}
+
 void Simulation::run(){
+    messages.push_back(hospital->getName() + " - simulation started.\n\n");
+    std::ofstream file(outputFileName, std::ios::trunc);
+    if (!file.good()) {
+        outputFileName = "output.txt";
+    }
     while (iterations--){
         messages.push_back(getDateTime());
         incrementDateTime();
@@ -81,6 +95,7 @@ void Simulation::run(){
             patientCalled911();
         }
         // rest of simulation
+        writeMessagesToFile();
         printMessages();
         messages.clear();
         std::this_thread::sleep_for(std::chrono::seconds(waitTime));
@@ -113,16 +128,4 @@ void Simulation::goThroughGeneralRooms(){
         }
     }
 }
-
-// void Simulation::goThroughTreatmentQueue(){
-//     for(auto& ward : hospital->getWardsList()){
-//         auto& treatmentRoom = ward->getTreatmentRoom();
-
-//     }
-// }
-
-
-
-
-
 
