@@ -63,6 +63,6 @@ std::unique_ptr<Patient> RandomPatientGenerator::generatePatient(){
     std::string surname = generateSurname(sex);
     ushort age = generateAge();
     std::unique_ptr<Patient> patient = std::make_unique<Patient>(PESEL, name, surname, sex, age);
-    patient->getHealthCard().addDisease(static_cast<Diseases>(generator.chooseNumber(0, 2)));
+    patient->getHealthCard().addDisease(static_cast<Diseases>(generator.chooseNumber(0, 1)));
     return patient;
 };

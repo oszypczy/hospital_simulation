@@ -1,12 +1,9 @@
 #pragma once
-
 #include "room.h"
 #include "doctor.h"
 #include "nurse.h"
 #include "patient.h"
 #include "consultation.h"
-
-
 #include <memory>
 #include <list>
 #include <deque>
@@ -41,4 +38,6 @@ class ConsultationRoom : public Room{
         std::list<std::unique_ptr<Nurse>>& getNurses();
         std::unique_ptr<Patient>& getConsultedPatient();
         std::unique_ptr<Consultation>& getConsultation();
+
+        std::unique_ptr<Patient> getFirstPatientInQueue();
 };

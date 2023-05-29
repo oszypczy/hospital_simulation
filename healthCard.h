@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-enum class Diseases {FLU, BRAIN_TUMOR, HEART_ATTACK};
+enum class Diseases {BRAIN_TUMOR, HEART_ATTACK, FLU};
 
 class HealthCard{
     private:

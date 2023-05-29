@@ -111,7 +111,7 @@ void Simulation::goThroughGeneralRooms(){
                     ss << *patient << " - left hospital." << std::endl;
                     messages.push_back(ss.str());
                     room->removePatient(std::move(patient));
-                } else if(typeid(patient->getHealthCard().getServicesPlanned()[0]) == typeid(Consultation)){
+                } else if(typeid(*(hospital->getServiceDataBase()->getServiceByID(patient->getHealthCard().getServicesPlanned()[0]))) == typeid(Consultation)){
                     std::stringstream ss;
                     ss << *patient << " - moved to Consultation Room queue" << std::endl;
                     messages.push_back(ss.str());
@@ -129,3 +129,12 @@ void Simulation::goThroughGeneralRooms(){
     }
 }
 
+void Simulation::conductConsultations(){
+    for(auto& ward : hospital->getWardsList()){
+        // if no consultation is being conducted
+        if (ward->getConsultationRoom()->getConsultation() == nullptr){
+            std::unique_ptr<Patient> patient = ward->getConsultationRoom()->getFirstPatientInQueue();
+            ushort serviceID = patient->getHealthCard().getServicesPlanned()[0];
+        }
+    }
+}
