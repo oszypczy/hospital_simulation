@@ -127,5 +127,5 @@ std::unique_ptr<Consultation>& ConsultationRoom::getConsultation(){
 std::unique_ptr<Patient> ConsultationRoom::getFirstPatientInQueue(){
     auto it = std::move(patientsQueue.front());
     patientsQueue.pop_front();
-    return std::move(it);
+    return it;
 }

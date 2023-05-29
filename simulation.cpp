@@ -134,7 +134,7 @@ void Simulation::conductConsultations(){
         // if no consultation is being conducted
         if (ward->getConsultationRoom()->getConsultation() == nullptr){
             std::unique_ptr<Patient> patient = ward->getConsultationRoom()->getFirstPatientInQueue();
-            ushort serviceID = patient->getHealthCard().getServicesPlanned()[0];
+            //ushort serviceID = patient->getHealthCard().getServicesPlanned()[0];
         }
     }
 }
