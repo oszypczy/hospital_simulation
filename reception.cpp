@@ -87,7 +87,7 @@ std::unique_ptr<Nurse> Reception::moveNurse(){
 std::unique_ptr<Patient> Reception::movePatient(){
     auto tempPatient = std::move(patientsQueue.front());
     patientsQueue.pop_front();
-    return std::move(tempPatient);
+    return tempPatient;
 }
 
 ServiceDataBase& Reception::getServiceDataBase(){
