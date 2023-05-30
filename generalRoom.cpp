@@ -20,6 +20,10 @@ void GeneralRoom::addPatient(std::unique_ptr<Patient> patient){
     attachedBeds++;
 }
 
+void GeneralRoom::returnPatient(std::unique_ptr<Patient> patient){
+    patientsList.push_back(std::move(patient));
+}
+
 void GeneralRoom::removePatient(std::unique_ptr<Patient> patient){
     auto it = std::find_if(patientsList.begin(), patientsList.end(), [&](const std::unique_ptr<Patient>& p) {
         return *p == *patient;
@@ -52,4 +56,8 @@ std::list<std::unique_ptr<Patient>>& GeneralRoom::getPatientsList(){
 
 std::list<std::string>& GeneralRoom::getPatientsPESELList(){
     return patientsPESELList;
+}
+
+bool GeneralRoom::checkIfPatientAssigned(std::string PESEL){
+    return std::find(patientsPESELList.begin(), patientsPESELList.end(), PESEL) != patientsPESELList.end();
 }

@@ -135,3 +135,25 @@ std::unique_ptr<Doctor> Hospital::getFreeDoctor(){
 std::unique_ptr<ServiceDataBase>& Hospital::getServiceDataBase(){
     return serviceDataBase;
 }
+
+std::unique_ptr<Nurse> Hospital::getFreeNurse(){
+    for(auto& nurse : nursesList){
+        if(nurse->getActivity() == NurseActivity::RESTING){
+            auto temp = std::move(nurse);
+            nursesList.remove(nurse);
+            return temp;
+        }
+    }
+    return nullptr;
+}
+
+std::unique_ptr<Doctor> Hospital::getDoctorBySpeciality(DoctorSpecialty specialty){
+    for(auto& doctor : doctorsList){
+        if(doctor->getSpecialty() == specialty){
+            auto temp = std::move(doctor);
+            doctorsList.remove(doctor);
+            return temp;
+        }
+    }
+    return nullptr;
+}

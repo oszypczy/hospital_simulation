@@ -42,4 +42,6 @@ class Hospital{
         std::string getName() const;
 
         std::unique_ptr<Doctor> getFreeDoctor();
+        std::unique_ptr<Nurse> getFreeNurse();
+        std::unique_ptr<Doctor> getDoctorBySpeciality(DoctorSpecialty specialty);
 };

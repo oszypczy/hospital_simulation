@@ -10,7 +10,7 @@
                     "surname": "Kowalski",
                     "sex": 0,
                     "age": 30,
-                    "specialty": 0
+                    "specialty": 4
                 },
                 {
                     "PESEL": "11223344556",
@@ -19,6 +19,14 @@
                     "sex": 1,
                     "age": 27,
                     "specialty": 1
+                },
+                {
+                    "PESEL": "11334455667",
+                    "name": "Kuba",
+                    "surname": "Nowak",
+                    "sex": 0,
+                    "age": 55,
+                    "specialty": 2
                 }
             ],
             "nurses":[

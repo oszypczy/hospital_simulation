@@ -24,4 +24,8 @@ class GeneralRoom : public Room{
         std::list<std::unique_ptr<Patient>>& getPatientsList();
 
         std::list<std::string>& getPatientsPESELList();
+
+        bool checkIfPatientAssigned(std::string PESEL);
+
+        void returnPatient(std::unique_ptr<Patient> patient);
 };

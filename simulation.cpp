@@ -98,9 +98,9 @@ void Simulation::run(){
         }
         moveToGeneralRoom();
         goThroughGeneralRooms();
-
+        conductConsultations();
+        conductTreatments();
         // rest of simulation
-
         writeMessagesToFile();
         printMessages();
         std::this_thread::sleep_for(std::chrono::seconds(waitTime));
@@ -140,8 +140,7 @@ void Simulation::goThroughGeneralRooms(){
 
 void Simulation::conductConsultations(){
     for(auto& ward : hospital->getWardsList()){
-        // if no consultation is being conducted
-        if (ward->getConsultationRoom()->getFirstPatientInQueue() != nullptr){
+        if (ward->getConsultationRoom()->checkIfAnyoneInQueue()){
             if (ward->getConsultationRoom()->getCurrentServiceID() == -1){
                 std::unique_ptr<Patient> patient = ward->getConsultationRoom()->getFirstPatientInQueue();
                 ushort serviceID = patient->getHealthCard().getServicesPlanned()[0];
@@ -152,26 +151,60 @@ void Simulation::conductConsultations(){
                 messages.push_back(ss.str());
                 (*consultation)->addDoctor(std::move(doctor));
                 (*consultation)->startService(std::move(patient));
+                ward->getConsultationRoom()->setCurrentServiceID(serviceID);
             } else {
                 ushort serviceID = ward->getConsultationRoom()->getCurrentServiceID();
                 auto consultation = hospital->getReception()->getServiceDataBase().getServiceByID(serviceID);
                 (*consultation)->continueService();
                 if ((*consultation)->getServiceState() == ServiceState::FINISHED){
                     RandomNumberGenerator randomNumberGenerator;
+                    std::stringstream ss;
                     std::unique_ptr<Patient> patient = (*consultation)->returnPatient();
                     std::string tempPESEL = (*consultation)->getFirstDoctor().getPESEL();
                     std::unique_ptr<Doctor> doctor = (*consultation)->returnDoctor(tempPESEL);
-                    // trzeba ogranąć żeby nie miał tych samych dwóch chorób
+                    ss << *patient << " finished consultation with " << *doctor << "in room: " << ward->getConsultationRoom()->getID() << std::endl;
                     if (randomNumberGenerator.percentage(30)){
-                        patient->getHealthCard().addDisease(static_cast<Diseases>(randomNumberGenerator.chooseNumber(0, 1)));
+                        if (patient->getHealthCard().checkDisease(Diseases::HEART_ATTACK)){
+                            patient->getHealthCard().addDisease(Diseases::BRAIN_TUMOR);
+                        } else {
+                            patient->getHealthCard().addDisease(Diseases::HEART_ATTACK);
+                        }
                     }
-                    // do każdej choroby zaplanować operację
+                    for (auto& disease : patient->getHealthCard().getDiseases()){
+                        ushort tempID = randomNumberGenerator.chooseNumber(1, 65000);
+                        auto it = hospital->getReception()->getServiceDataBase().getServiceByID(tempID);
+                        while (it != hospital->getReception()->getServiceDataBase().getMedicalServices().end()){
+                            serviceID = randomNumberGenerator.chooseNumber(1, 65000);
+                            it = hospital->getReception()->getServiceDataBase().getServiceByID(tempID);
+                        }
+                        bool NFZ = randomNumberGenerator.chooseNumber(0, 1);
+                        ushort totalTime = randomNumberGenerator.chooseNumber(1, 8) * 15;
+                        OperationType type;
+                        if (disease == Diseases::HEART_ATTACK){
+                            type = OperationType::HEART_TRANSPLANT;
+                            ss << "Patient needs heart transplant!" << std::endl;
+                        } else {
+                            type = OperationType::BRAIN_TUMOR_REMOVAL;
+                            ss << "Patient needs brain tumor removal!" << std::endl;
+                        }
+                        hospital->getReception()->getServiceDataBase().addOperation(tempID, totalTime, NFZ, type, disease);
+                        patient->getHealthCard().planService(tempID);
+                    }
                     patient->getHealthCard().finishService(serviceID);
                     hospital->getReception()->getServiceDataBase().removeService(serviceID);
                     ward->getConsultationRoom()->setCurrentServiceID(-1);
-                    //gererowanie wiadomości o przebiegu konsultacji
-                    //wysyłka pacjenta do pokoju łóżkowego
-                    //wysyłka lekarza do szpitala
+                    for (auto& ward : hospital->getWardsList()){
+                        for (auto& room : ward->getGeneralRoomList()){
+                            if (room->checkIfPatientAssigned(patient->getPESEL())){
+                                std::stringstream ss;
+                                ss << *patient << " - moved to general room " << room->getID() << " ID." << std::endl;
+                                room->returnPatient(std::move(patient));
+                                messages.push_back(ss.str());
+                            }
+                        }
+                    }
+                    hospital->addDoctor(std::move(doctor));
+                    messages.push_back(ss.str());
                 }
             }
         }
@@ -197,5 +230,75 @@ void Simulation::moveToGeneralRoom(){
         ss << *patient << " must wait in reception. No general rooms free at the moment!" << std::endl;
         messages.push_back(ss.str());
         hospital->getReception()->waitInReception(std::move(patient));
+    }
+}
+
+void Simulation::conductTreatments(){
+    for(auto& ward : hospital->getWardsList()){
+        if (ward->getTreatmentRoom()->checkIfAnyoneInQueue()){
+            if (ward->getTreatmentRoom()->getCurrentServiceID() == -1){
+                std::unique_ptr<Patient> patient = ward->getTreatmentRoom()->getFirstPatientInQueue();
+                ushort serviceID = patient->getHealthCard().getServicesPlanned()[0];
+                auto operation = hospital->getReception()->getServiceDataBase().getServiceByID(serviceID);
+                std::unique_ptr<Nurse> nurse = hospital->getFreeNurse();
+                Diseases disease = patient->getHealthCard().getDiseases()[0];
+
+                std::unique_ptr<Doctor> doctor1 = hospital->getDoctorBySpeciality(DoctorSpecialty::ANESTESIOLOGYST);
+                std::unique_ptr<Doctor> doctor2(nullptr);
+                if(disease == Diseases::BRAIN_TUMOR){
+                    doctor2 = hospital->getDoctorBySpeciality(DoctorSpecialty::NEUROLOGIST);
+                } else{
+                    doctor2 = hospital->getDoctorBySpeciality(DoctorSpecialty::CARDIOLOGIST);
+                }
+                std::stringstream ss;
+                ss << *patient << " is being operated by " << *doctor1 << "and"<< *doctor2 << "in room: " << ward->getTreatmentRoom()->getID() << std::endl;
+                messages.push_back(ss.str());
+                (*operation)->addDoctor(std::move(doctor1));
+                (*operation)->addDoctor(std::move(doctor2));
+                (*operation)->addNurse(std::move(nurse));
+                (*operation)->startService(std::move(patient));
+                ward->getTreatmentRoom()->setCurrentServiceID(serviceID);
+            } else {
+                ushort serviceID = ward->getTreatmentRoom()->getCurrentServiceID();
+                auto operation = hospital->getReception()->getServiceDataBase().getServiceByID(serviceID);
+                (*operation)->continueService();
+                if ((*operation)->getServiceState() == ServiceState::FINISHED){
+                    RandomNumberGenerator randomNumberGenerator;
+                    std::stringstream ss;
+                    std::unique_ptr<Patient> patient = (*operation)->returnPatient();
+
+                    std::string tempPESEL = (*operation)->getFirstDoctor().getPESEL();
+                    std::unique_ptr<Doctor> doctor1 = (*operation)->returnDoctor(tempPESEL);
+                    std::string tempPESEL2 = (*operation)->getFirstDoctor().getPESEL();
+                    std::unique_ptr<Doctor> doctor2 = (*operation)->returnDoctor(tempPESEL2);
+
+                    std::string tempPESEL3 = (*operation)->getFirstNurse().getPESEL();
+                    std::unique_ptr<Nurse> nurse = (*operation)->returnNurse(tempPESEL3);
+
+                    ss << *patient << " finished operation with " << *doctor1 << "and" << *doctor2 << "in room: " << ward->getTreatmentRoom()->getID() << std::endl;
+
+                    //założenie optymistyczne - wszystkie choroby wyleczone es
+                    patient->getHealthCard().getDiseases().clear();
+
+                    patient->getHealthCard().finishService(serviceID);
+                    hospital->getReception()->getServiceDataBase().removeService(serviceID);
+                    ward->getTreatmentRoom()->setCurrentServiceID(-1);
+                    for (auto& ward : hospital->getWardsList()){
+                        for (auto& room : ward->getGeneralRoomList()){
+                            if (room->checkIfPatientAssigned(patient->getPESEL())){
+                                std::stringstream ss;
+                                ss << *patient << " - moved to general room " << room->getID() << " ID." << std::endl;
+                                room->returnPatient(std::move(patient));
+                                messages.push_back(ss.str());
+                            }
+                        }
+                    }
+                    hospital->addDoctor(std::move(doctor1));
+                    hospital->addDoctor(std::move(doctor2));
+                    hospital->addNurse(std::move(nurse));
+                    messages.push_back(ss.str());
+                }
+            }
+        }
     }
 }

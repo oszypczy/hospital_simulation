@@ -24,6 +24,7 @@ class ConsultationRoom : public Room{
         std::unique_ptr<Patient> getFirstPatientInQueue();
         int getCurrentServiceID() const;
         void setCurrentServiceID(int id);
+        bool checkIfAnyoneInQueue();
 
         // void addDoctor(std::unique_ptr<Doctor> doctor);
         // void removeDoctor(std::unique_ptr<Doctor> doctor);

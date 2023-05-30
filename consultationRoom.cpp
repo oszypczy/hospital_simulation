@@ -36,6 +36,10 @@ void ConsultationRoom::setCurrentServiceID(int id){
     currentServiceID = id;
 }
 
+bool ConsultationRoom::checkIfAnyoneInQueue(){
+    return !patientsQueue.empty();
+}
+
 
 // void ConsultationRoom::addDoctor(std::unique_ptr<Doctor> doctor){
 //     doctors.push_back(std::move(doctor));

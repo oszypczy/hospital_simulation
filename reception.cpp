@@ -5,7 +5,7 @@ Reception::Reception(std::string id): Place(id){}
 void Reception::addPatientToQueueFirst(std::unique_ptr<Patient> patient){
     RandomNumberGenerator generator;
 
-    if (generator.chooseNumber(0, 1) == 0){
+    if (generator.percentage(50)){
         ushort serviceID = generator.chooseNumber(1, 65000);
 
         auto it = serviceDataBase.getServiceByID(serviceID);
@@ -30,9 +30,13 @@ void Reception::addPatientToQueueFirst(std::unique_ptr<Patient> patient){
         }
         bool NFZ = generator.chooseNumber(0, 1);
         ushort totalTime = generator.chooseNumber(1, 8) * 15;
-        OperationType type = static_cast<OperationType>(generator.chooseNumber(0, 1));
-        Diseases disease = static_cast<Diseases>(generator.chooseNumber(0, 2));
-
+        OperationType type;
+        Diseases disease = patient->getHealthCard().getDiseases()[0];
+        if (disease == Diseases::HEART_ATTACK){
+            type = OperationType::HEART_TRANSPLANT;
+        } else {
+            type = OperationType::BRAIN_TUMOR_REMOVAL;
+        }
         serviceDataBase.addOperation(serviceID, totalTime, NFZ, type, disease);
         patient->getHealthCard().planService(serviceID);
     }
@@ -67,9 +71,13 @@ void Reception::addPatientToQueueLast(std::unique_ptr<Patient> patient){
         }
         bool NFZ = generator.chooseNumber(0, 1);
         ushort totalTime = generator.chooseNumber(1, 8) * 15;
-        OperationType type = static_cast<OperationType>(generator.chooseNumber(0, 1));
-        Diseases disease = static_cast<Diseases>(generator.chooseNumber(0, 2));
-
+        OperationType type;
+        Diseases disease = patient->getHealthCard().getDiseases()[0];
+        if (disease == Diseases::HEART_ATTACK){
+            type = OperationType::HEART_TRANSPLANT;
+        } else {
+            type = OperationType::BRAIN_TUMOR_REMOVAL;
+        }
         serviceDataBase.addOperation(serviceID, totalTime, NFZ, type, disease);
         patient->getHealthCard().planService(serviceID);
     }

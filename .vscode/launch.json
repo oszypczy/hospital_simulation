@@ -12,7 +12,7 @@
             // "program": "${workspaceFolder}\\${workspaceFolderBasename}.exe",
             //Wersja dla Linuxa:
             "program": "${workspaceFolder}/${workspaceFolderBasename}",
-            "args": ["inputData.json", "simulation_output.txt", "11", "0"], //tu należy podać argumenty wywołania programu
+            "args": ["inputData.json", "simulation_output.txt", "15", "0"], //tu należy podać argumenty wywołania programu
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],

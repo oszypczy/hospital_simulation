@@ -34,6 +34,7 @@ class MedicalService {
         ushort getID() const;
         Doctor& getDoctor(DoctorSpecialty specialty) const;
         Doctor& getFirstDoctor() const;
+        Nurse& getFirstNurse() const;
         virtual uint calculateCost() const = 0;
         virtual std::string print() const = 0;
         virtual bool checkPersonel() const = 0;
