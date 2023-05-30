@@ -11,16 +11,16 @@ void TreatmentRoom::addPatientToQueue(std::unique_ptr<Patient> patient){
 }
 
 
-void TreatmentRoom::removePatient(std::unique_ptr<Patient> patient){
-    auto it = std::find_if(patientsQueue.begin(), patientsQueue.end(), [&](const std::unique_ptr<Patient>& p) {
-        return *p == *patient;
-    });
+// void TreatmentRoom::removePatient(std::unique_ptr<Patient> patient){
+//     auto it = std::find_if(patientsQueue.begin(), patientsQueue.end(), [&](const std::unique_ptr<Patient>& p) {
+//         return *p == *patient;
+//     });
 
-    if (it != patientsQueue.end()) {
-        patientsQueue.erase(it);
-    }
-    else throw InvalidHumanPointer("Patient");
-}
+//     if (it != patientsQueue.end()) {
+//         patientsQueue.erase(it);
+//     }
+//     else throw InvalidHumanPointer("Patient");
+// }
 
 std::unique_ptr<Patient> TreatmentRoom::getFirstPatientInQueue(){
     auto it = std::move(patientsQueue.front());

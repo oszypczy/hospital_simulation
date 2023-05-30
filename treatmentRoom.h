@@ -23,7 +23,7 @@ class TreatmentRoom : public Room{
     public:
         TreatmentRoom(std::string id);
         void addPatientToQueue(std::unique_ptr<Patient> patient);
-        void removePatient(std::unique_ptr<Patient> patient);
+        // void removePatient(std::unique_ptr<Patient> patient);
         std::unique_ptr<Patient> getFirstPatientInQueue();
         int getCurrentServiceID() const;
         void setCurrentServiceID(int id);
