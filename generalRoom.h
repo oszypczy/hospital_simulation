@@ -9,7 +9,7 @@
 class GeneralRoom : public Room{
     private:
         ushort maxBeds;
-        ushort attachedBeds;
+        ushort attachedBeds = 0;
         std::list<std::unique_ptr<Patient>> patientsList;
         std::list<std::string> patientsPESELList;
     public:

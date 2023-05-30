@@ -67,6 +67,7 @@ void Simulation::printMessages(){
         count++;
     }
     std::cout << std::endl;
+    messages.clear();
 }
 
 void Simulation::writeMessagesToFile(){
@@ -79,6 +80,7 @@ void Simulation::writeMessagesToFile(){
 
 void Simulation::run(){
     messages.push_back(hospital->getName() + " - simulation started.\n\n");
+    printMessages();
     std::ofstream file(outputFileName, std::ios::trunc);
     if (!file.good()) {
         outputFileName = "output.txt";
@@ -94,10 +96,13 @@ void Simulation::run(){
         if (randomNumberGenerator.percentage(30)){
             patientCalled911();
         }
+        moveToGeneralRoom();
+        goThroughGeneralRooms();
+
         // rest of simulation
+
         writeMessagesToFile();
         printMessages();
-        messages.clear();
         std::this_thread::sleep_for(std::chrono::seconds(waitTime));
     }
 }
@@ -111,20 +116,24 @@ void Simulation::goThroughGeneralRooms(){
                     ss << *patient << " - left hospital." << std::endl;
                     messages.push_back(ss.str());
                     room->removePatient(std::move(patient));
-                } else if(typeid(*(hospital->getServiceDataBase()->getServiceByID(patient->getHealthCard().getServicesPlanned()[0]))) == typeid(Consultation)){
+                    continue;
+                }
+                auto it = hospital->getReception()->getServiceDataBase().getServiceByID(patient->getHealthCard().getServicesPlanned()[0]);
+                if(typeid(**it) == typeid(Consultation)){
                     std::stringstream ss;
                     ss << *patient << " - moved to Consultation Room queue" << std::endl;
                     messages.push_back(ss.str());
-
-                    ward->getConsultationRoom()->addPatientToQueue(room->movePatient(std::move(patient)));
+                    auto temp = std::move(patient);
+                    ward->getConsultationRoom()->addPatientToQueue(std::move(temp));
                 } else {
                     std::stringstream ss;
-                    ss << *patient << " - moved to Treatment(Operation) Room queue" << std::endl;
+                    ss << *patient << " - moved to Treatment Room queue" << std::endl;
                     messages.push_back(ss.str());
-
-                    ward->getTreatmentRoom()->addPatientToQueue(room->movePatient(std::move(patient)));
+                    auto temp = std::move(patient);
+                    ward->getTreatmentRoom()->addPatientToQueue(std::move(temp));
                 }
             }
+            room->getPatientsList().clear();
         }
     }
 }
@@ -132,9 +141,61 @@ void Simulation::goThroughGeneralRooms(){
 void Simulation::conductConsultations(){
     for(auto& ward : hospital->getWardsList()){
         // if no consultation is being conducted
-        if (ward->getConsultationRoom()->getConsultation() == nullptr){
-            std::unique_ptr<Patient> patient = ward->getConsultationRoom()->getFirstPatientInQueue();
-            //ushort serviceID = patient->getHealthCard().getServicesPlanned()[0];
+        if (ward->getConsultationRoom()->getFirstPatientInQueue() != nullptr){
+            if (ward->getConsultationRoom()->getCurrentServiceID() == -1){
+                std::unique_ptr<Patient> patient = ward->getConsultationRoom()->getFirstPatientInQueue();
+                ushort serviceID = patient->getHealthCard().getServicesPlanned()[0];
+                std::unique_ptr<Doctor> doctor = hospital->getFreeDoctor();
+                auto consultation = hospital->getReception()->getServiceDataBase().getServiceByID(serviceID);
+                std::stringstream ss;
+                ss << *patient << " is consulting with " << *doctor << "in room: " << ward->getConsultationRoom()->getID() << std::endl;
+                messages.push_back(ss.str());
+                (*consultation)->addDoctor(std::move(doctor));
+                (*consultation)->startService(std::move(patient));
+            } else {
+                ushort serviceID = ward->getConsultationRoom()->getCurrentServiceID();
+                auto consultation = hospital->getReception()->getServiceDataBase().getServiceByID(serviceID);
+                (*consultation)->continueService();
+                if ((*consultation)->getServiceState() == ServiceState::FINISHED){
+                    RandomNumberGenerator randomNumberGenerator;
+                    std::unique_ptr<Patient> patient = (*consultation)->returnPatient();
+                    std::string tempPESEL = (*consultation)->getFirstDoctor().getPESEL();
+                    std::unique_ptr<Doctor> doctor = (*consultation)->returnDoctor(tempPESEL);
+                    // trzeba ogranąć żeby nie miał tych samych dwóch chorób
+                    if (randomNumberGenerator.percentage(30)){
+                        patient->getHealthCard().addDisease(static_cast<Diseases>(randomNumberGenerator.chooseNumber(0, 1)));
+                    }
+                    // do każdej choroby zaplanować operację
+                    patient->getHealthCard().finishService(serviceID);
+                    hospital->getReception()->getServiceDataBase().removeService(serviceID);
+                    ward->getConsultationRoom()->setCurrentServiceID(-1);
+                    //gererowanie wiadomości o przebiegu konsultacji
+                    //wysyłka pacjenta do pokoju łóżkowego
+                    //wysyłka lekarza do szpitala
+                }
+            }
         }
+    }
+}
+
+
+void Simulation::moveToGeneralRoom(){
+    if (!hospital->getReception()->getPatientsQueue().empty()){
+        std::unique_ptr<Patient> patient = std::move(hospital->getReception()->movePatient());
+        for (auto& ward : hospital->getWardsList()){
+            for (auto& room : ward->getGeneralRoomList()){
+                if (!room->isFull()){
+                    std::stringstream ss;
+                    ss << *patient << " - moved to general room " << room->getID() << " ID." << std::endl;
+                    room->addPatient(std::move(patient));
+                    messages.push_back(ss.str());
+                    return;
+                }
+            }
+        }
+        std::stringstream ss;
+        ss << *patient << " must wait in reception. No general rooms free at the moment!" << std::endl;
+        messages.push_back(ss.str());
+        hospital->getReception()->waitInReception(std::move(patient));
     }
 }

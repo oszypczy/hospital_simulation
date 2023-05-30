@@ -40,4 +40,6 @@ class Hospital{
         std::unique_ptr<AmbulanceDispatch>& getAmbulanceDispatch();
         std::unique_ptr<ServiceDataBase>& getServiceDataBase();
         std::string getName() const;
+
+        std::unique_ptr<Doctor> getFreeDoctor();
 };

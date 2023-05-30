@@ -1,57 +1,55 @@
-Hospital Name - simulation started.
-
 Date and time: 01.01.2023, 12:00
-Patient: Jan Adamczyk (10780526329), 28 years old. - just came to hospital.
+Ambulance WA00001 went to the intervention. People inside:
+   Paramedic: Artur Malanowski (33445566778).
+   Paramedic: Ewa Paniewska (34567890000).
+   Patient: Krzysztof Zając (85282306216), 26 years old.
 
 Date and time: 01.01.2023, 12:15
-Patient: Robert Wójcik (47036100706), 37 years old. - just came to hospital.
-Ambulance WA00001 went to the intervention. People inside:
-   Paramedic: Artur Malanowski (33445566778).
-   Paramedic: Ewa Paniewska (34567890000).
-   Patient: Wiesława Adamczyk (01108818740), 74 years old.
+Patient: Teresa Lewandowska (59203968904), 13 years old. - just came to hospital.
+Ambulance WA00001 is in garage and returned from intervention.
+Patient: Krzysztof Zając (85282306216), 26 years old. - just came to hospital by ambulance.
+Patient: Krzysztof Zając (85282306216), 26 years old. - moved to general room generalRoom 1_id ID.
+Patient: Krzysztof Zając (85282306216), 26 years old. - moved to Treatment Room queue
 
 Date and time: 01.01.2023, 12:30
-Patient: Teresa Wróblewska (80313532823), 1 years old. - just came to hospital.
-Ambulance WA00001 is in garage and returned from intervention.
-Patient: Wiesława Adamczyk (01108818740), 74 years old. - just came to hospital by ambulance.
+Patient: Krzysztof Wróblewski (86939398622), 14 years old. - just came to hospital.
+Patient: Teresa Lewandowska (59203968904), 13 years old. - moved to general room generalRoom 1_id ID.
+Patient: Teresa Lewandowska (59203968904), 13 years old. - moved to Treatment Room queue
 
 Date and time: 01.01.2023, 12:45
-Patient: Elżbieta Zalewska (37882893577), 87 years old. - just came to hospital.
+Patient: Irena Baran (31117727189), 10 years old. - just came to hospital.
+Patient: Krzysztof Wróblewski (86939398622), 14 years old. - moved to general room generalRoom 1_id ID.
+Patient: Krzysztof Wróblewski (86939398622), 14 years old. - moved to Consultation Room queue
 
 Date and time: 01.01.2023, 13:00
-Ambulance WA00001 went to the intervention. People inside:
-   Paramedic: Artur Malanowski (33445566778).
-   Paramedic: Ewa Paniewska (34567890000).
-   Patient: Stanisława Malinowska (28798808648), 66 years old.
+Patient: Bogusław Andrzejewski (60276248525), 2 years old. - just came to hospital.
+Patient: Irena Baran (31117727189), 10 years old. - moved to general room generalRoom 1_id ID.
+Patient: Irena Baran (31117727189), 10 years old. - moved to Treatment Room queue
 
 Date and time: 01.01.2023, 13:15
-Patient: Jadwiga Baran (28865962591), 82 years old. - just came to hospital.
-Ambulance WA00001 is in garage and returned from intervention.
-Patient: Stanisława Malinowska (28798808648), 66 years old. - just came to hospital by ambulance.
+Patient: Barbara Jakubowska (60704033301), 80 years old. - just came to hospital.
+Patient: Bogusław Andrzejewski (60276248525), 2 years old. must wait in reception. No general rooms free at the moment!
 
 Date and time: 01.01.2023, 13:30
-Patient: Krzysztof Kwiatkowski (49724288177), 66 years old. - just came to hospital.
+Patient: Krystyna Pietrzak (31729260188), 82 years old. - just came to hospital.
+Patient: Bogusław Andrzejewski (60276248525), 2 years old. must wait in reception. No general rooms free at the moment!
 
 Date and time: 01.01.2023, 13:45
-Ambulance WA00001 went to the intervention. People inside:
-   Paramedic: Artur Malanowski (33445566778).
-   Paramedic: Ewa Paniewska (34567890000).
-   Patient: Konrad Włodarczyk (99845906919), 73 years old.
+Patient: Bożena Dąbrowska (86139261490), 59 years old. - just came to hospital.
+Patient: Bogusław Andrzejewski (60276248525), 2 years old. must wait in reception. No general rooms free at the moment!
 
 Date and time: 01.01.2023, 14:00
-Ambulance WA00001 is in garage and returned from intervention.
-Patient: Konrad Włodarczyk (99845906919), 73 years old. - just came to hospital by ambulance.
-Ambulance WA00001 went to the intervention. People inside:
-   Paramedic: Artur Malanowski (33445566778).
-   Paramedic: Ewa Paniewska (34567890000).
-   Patient: Włodzimierz Kubiak (74962586293), 1 years old.
+Patient: Bogusław Andrzejewski (60276248525), 2 years old. must wait in reception. No general rooms free at the moment!
 
 Date and time: 01.01.2023, 14:15
-Patient: Józef Bąk (56841970225), 48 years old. - just came to hospital.
-Ambulance WA00001 is in garage and returned from intervention.
-Patient: Włodzimierz Kubiak (74962586293), 1 years old. - just came to hospital by ambulance.
+Patient: Magdalena Zalewska (36818320140), 63 years old. - just came to hospital.
+Patient: Bogusław Andrzejewski (60276248525), 2 years old. must wait in reception. No general rooms free at the moment!
+
+Date and time: 01.01.2023, 14:30
+Patient: Janina Tomaszewska (29517983438), 34 years old. - just came to hospital.
 Ambulance WA00001 went to the intervention. People inside:
    Paramedic: Artur Malanowski (33445566778).
    Paramedic: Ewa Paniewska (34567890000).
-   Patient: Maria Czerwińska (88244860221), 99 years old.
+   Patient: Wanda Nowak (06404560489), 37 years old.
+Patient: Bogusław Andrzejewski (60276248525), 2 years old. must wait in reception. No general rooms free at the moment!
 

@@ -79,6 +79,13 @@ Doctor& MedicalService::getDoctor(DoctorSpecialty specialty) const {
     throw ObjectNotFoundException("Doctor with the given specialty");
 }
 
+Doctor& MedicalService::getFirstDoctor() const {
+    if (doctors.empty()) {
+        throw ObjectNotFoundException("Doctor");
+    }
+    return *doctors.front();
+}
+
 std::list<std::unique_ptr<Nurse>>::iterator MedicalService::getNurse(std::string PESEL) {
     auto it = std::find_if(nurses.begin(), nurses.end(), [PESEL](const std::unique_ptr<Nurse>& nurse) {
         return nurse->getPESEL() == PESEL;

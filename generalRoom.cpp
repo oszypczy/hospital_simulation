@@ -17,6 +17,7 @@ ushort GeneralRoom::checkOccupancy() const{
 void GeneralRoom::addPatient(std::unique_ptr<Patient> patient){
     patientsPESELList.push_back(patient->getPESEL());
     patientsList.push_back(std::move(patient));
+    attachedBeds++;
 }
 
 void GeneralRoom::removePatient(std::unique_ptr<Patient> patient){

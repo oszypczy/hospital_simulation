@@ -93,3 +93,11 @@ std::unique_ptr<Patient> Reception::movePatient(){
 ServiceDataBase& Reception::getServiceDataBase(){
     return serviceDataBase;
 }
+
+void Reception::waitInReception(std::unique_ptr<Patient> patient){
+    patientsQueue.push_front(std::move(patient));
+}
+
+std::deque<std::unique_ptr<Patient>>& Reception::getPatientsQueue(){
+    return patientsQueue;
+}

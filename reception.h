@@ -17,10 +17,11 @@ class Reception : public Place{
     public:
         Reception(std::string id);
         void addPatientToQueueFirst(std::unique_ptr<Patient> patient);
+        void waitInReception(std::unique_ptr<Patient> patient);
         void addPatientToQueueLast(std::unique_ptr<Patient> patient);
         void addNurse(std::unique_ptr<Nurse> nurse);
         std::unique_ptr<Nurse> moveNurse();
         std::unique_ptr<Patient> movePatient();
-
+        std::deque<std::unique_ptr<Patient>>& getPatientsQueue();
         ServiceDataBase& getServiceDataBase();
 };

@@ -30,5 +30,6 @@ class Simulation {
         void checkForReturnedAmbulances();
         void goThroughGeneralRooms();
         void conductConsultations();
+        void moveToGeneralRoom();
         void conductTreatments();
 };

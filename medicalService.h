@@ -33,6 +33,7 @@ class MedicalService {
         std::list<std::unique_ptr<Nurse>>::iterator getNurse(std::string PESEL);
         ushort getID() const;
         Doctor& getDoctor(DoctorSpecialty specialty) const;
+        Doctor& getFirstDoctor() const;
         virtual uint calculateCost() const = 0;
         virtual std::string print() const = 0;
         virtual bool checkPersonel() const = 0;

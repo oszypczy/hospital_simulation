@@ -120,3 +120,18 @@ std::unique_ptr<AmbulanceDispatch>& Hospital::getAmbulanceDispatch(){
 std::string Hospital::getName()const{
     return name;
 }
+
+std::unique_ptr<Doctor> Hospital::getFreeDoctor(){
+    for(auto& doctor : doctorsList){
+        if(doctor->getActivity() == DoctorActivity::RESTING){
+            auto temp = std::move(doctor);
+            doctorsList.remove(doctor);
+            return temp;
+        }
+    }
+    return nullptr;
+}
+
+std::unique_ptr<ServiceDataBase>& Hospital::getServiceDataBase(){
+    return serviceDataBase;
+}
