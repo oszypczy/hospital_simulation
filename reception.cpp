@@ -7,29 +7,24 @@ void Reception::addPatientToQueueFirst(std::unique_ptr<Patient> patient){
 
     if (generator.percentage(50)){
         ushort serviceID = generator.chooseNumber(1, 65000);
-
         auto it = serviceDataBase.getServiceByID(serviceID);
-
         while (it != serviceDataBase.getMedicalServices().end()){
             serviceID = generator.chooseNumber(1, 65000);
             it = serviceDataBase.getServiceByID(serviceID);
         }
         bool NFZ = generator.chooseNumber(0, 1);
-        ushort totalTime = generator.chooseNumber(1, 4) * 15;
-
+        ushort totalTime = 15;
         serviceDataBase.addConsultation(serviceID, totalTime, NFZ);
         patient->getHealthCard().planService(serviceID);
     } else {
         ushort serviceID = generator.chooseNumber(1, 65000);
-
         auto it = serviceDataBase.getServiceByID(serviceID);
-
         while (it != serviceDataBase.getMedicalServices().end()){
             serviceID = generator.chooseNumber(1, 65000);
             it = serviceDataBase.getServiceByID(serviceID);
         }
         bool NFZ = generator.chooseNumber(0, 1);
-        ushort totalTime = generator.chooseNumber(1, 8) * 15;
+        ushort totalTime = 60;
         OperationType type;
         Diseases disease = patient->getHealthCard().getDiseases()[0];
         if (disease == Diseases::HEART_ATTACK){
@@ -46,31 +41,26 @@ void Reception::addPatientToQueueFirst(std::unique_ptr<Patient> patient){
 void Reception::addPatientToQueueLast(std::unique_ptr<Patient> patient){
     RandomNumberGenerator generator;
 
-    if (generator.chooseNumber(0, 1) == 0){
+    if (generator.percentage(50)){
         ushort serviceID = generator.chooseNumber(1, 65000);
-
         auto it = serviceDataBase.getServiceByID(serviceID);
-
         while (it != serviceDataBase.getMedicalServices().end()){
             serviceID = generator.chooseNumber(1, 65000);
             it = serviceDataBase.getServiceByID(serviceID);
         }
         bool NFZ = generator.chooseNumber(0, 1);
-        ushort totalTime = generator.chooseNumber(1, 4) * 15;
-
+        ushort totalTime = 15;
         serviceDataBase.addConsultation(serviceID, totalTime, NFZ);
         patient->getHealthCard().planService(serviceID);
     } else {
         ushort serviceID = generator.chooseNumber(1, 65000);
-
         auto it = serviceDataBase.getServiceByID(serviceID);
-
         while (it != serviceDataBase.getMedicalServices().end()){
             serviceID = generator.chooseNumber(1, 65000);
             it = serviceDataBase.getServiceByID(serviceID);
         }
         bool NFZ = generator.chooseNumber(0, 1);
-        ushort totalTime = generator.chooseNumber(1, 8) * 15;
+        ushort totalTime = 60;
         OperationType type;
         Diseases disease = patient->getHealthCard().getDiseases()[0];
         if (disease == Diseases::HEART_ATTACK){

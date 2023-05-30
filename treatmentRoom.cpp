@@ -40,6 +40,10 @@ bool TreatmentRoom::checkIfAnyoneInQueue(){
     return !patientsQueue.empty();
 }
 
+Diseases TreatmentRoom::getDiseaseOfFirstPatientInQueue() const{
+    return patientsQueue.front()->getHealthCard().getDiseases()[0];
+}
+
 // void TreatmentRoom::addDoctor(std::unique_ptr<Doctor> doctor){
 //     doctors.push_back(std::move(doctor));
 // }

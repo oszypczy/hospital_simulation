@@ -61,6 +61,6 @@ TEST_CASE("nurse simple tests", "[nurse]")
     {
         std::stringstream ss;
         ss << Lidka;
-        CHECK(ss.str() == "Nurse: Lidia Strzelecka (03232407362).");
+        CHECK(ss.str() == "Nurse: Lidia Strzelecka (03232407362)");
     }
 }

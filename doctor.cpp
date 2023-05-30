@@ -49,6 +49,6 @@ std::ostream& operator<<(std::ostream& os, const Doctor& doctor) {
             os << "Anesthesiology";
             break;
     }
-    os << " doctor " << doctor.getName() << " " << doctor.getSurname() << " (" << doctor.getPESEL() << ").";
+    os << " doctor " << doctor.getName() << " " << doctor.getSurname() << " (" << doctor.getPESEL() << ")";
     return os;
 }

@@ -1,6 +1,6 @@
 {
     "hospital": {
-        "name" : "Hospital Name",
+        "name" : "Mazowiecki Szpital Specjalistyczny w Radomiu",
         "humans":
         {
             "doctors":[
@@ -27,6 +27,14 @@
                     "sex": 0,
                     "age": 55,
                     "specialty": 2
+                },
+                {
+                    "PESEL": "11554556670",
+                    "name": "Mikro",
+                    "surname": "Cypek",
+                    "sex": 1,
+                    "age": 99,
+                    "specialty": 1
                 }
             ],
             "nurses":[
@@ -50,29 +58,33 @@
         {
             "wards":[
                 {
-                    "id": "ward 1_id",
-                    "name": "ward 1_name",
+                    "id": "1237189273",
+                    "name": "General Ward",
                     "treatmentroom":{
-                            "id": "treatmentRoom 1_id"
+                            "id": "801 (OR)"
                     },
                     "consultationroom":{
-                            "id": "consultationRoom 1_id"
+                            "id": "802 (CR)"
                     },
                     "generalrooms":[
                         {
-                            "id": "generalRoom 1_id",
+                            "id": "803 (GR)",
                             "maxBeds": 4
+                        },
+                        {
+                            "id": "804 (GR)",
+                            "maxBeds": 6
                         }
                     ]
                 }
             ],
             "reception":
             {
-                "id": "reception_id"
+                "id": "009 (R)"
             },
             "ambulancedispatch":
             {
-                "id": "ambulanceDispatch_id",
+                "id": "010 (AD)",
                 "ambulances":[
                     {
                         "registrationNumber": "WA00001"
@@ -85,7 +97,7 @@
                     {
                         "PESEL": "33445566778",
                         "name": "Artur",
-                        "surname": "Malanowski",
+                        "surname": "Makowski",
                         "sex": 0,
                         "age": 20
                     },

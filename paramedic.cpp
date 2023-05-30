@@ -17,6 +17,6 @@ ushort Paramedic::getHourlyWage() const {
 }
 
 std::ostream& operator<<(std::ostream& os, const Paramedic& Paramedic) {
-    os << "Paramedic: " << Paramedic.name << " " << Paramedic.surname << " (" << Paramedic.PESEL << ").";
+    os << "Paramedic: " << Paramedic.name << " " << Paramedic.surname << " (" << Paramedic.PESEL << ")";
     return os;
 }

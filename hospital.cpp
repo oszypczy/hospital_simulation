@@ -157,3 +157,33 @@ std::unique_ptr<Doctor> Hospital::getDoctorBySpeciality(DoctorSpecialty specialt
     }
     return nullptr;
 }
+
+bool Hospital::checkIfFreeDoctorExists(){
+    for(auto& doctor : doctorsList){
+        if(doctor->getActivity() == DoctorActivity::RESTING){
+            return true;
+        }
+    }
+    return false;
+}
+
+//it has to check if there is at least one doctor with given specialty, anasthesiologist and one nurse
+bool Hospital::checkIfStaffReadyForOperation(DoctorSpecialty specialty){
+    bool doctorExists = false;
+    bool anasthesiologistExists = false;
+    bool nurseExists = false;
+    for(auto& doctor : doctorsList){
+        if(doctor->getSpecialty() == specialty){
+            doctorExists = true;
+        }
+        if(doctor->getSpecialty() == DoctorSpecialty::ANESTESIOLOGYST){
+            anasthesiologistExists = true;
+        }
+    }
+    for(auto& nurse : nursesList){
+        if(nurse->getActivity() == NurseActivity::RESTING){
+            nurseExists = true;
+        }
+    }
+    return (doctorExists && anasthesiologistExists && nurseExists);
+}

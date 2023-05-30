@@ -44,4 +44,7 @@ class Hospital{
         std::unique_ptr<Doctor> getFreeDoctor();
         std::unique_ptr<Nurse> getFreeNurse();
         std::unique_ptr<Doctor> getDoctorBySpeciality(DoctorSpecialty specialty);
+
+        bool checkIfFreeDoctorExists();
+        bool checkIfStaffReadyForOperation(DoctorSpecialty specialty);
 };

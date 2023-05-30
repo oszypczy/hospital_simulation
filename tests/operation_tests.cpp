@@ -107,7 +107,7 @@ TEST_CASE("operation simple tests", "[operation]")
         CHECK(operation.calculateCost() == 257070);
         std::stringstream ss;
         ss << operation;
-        CHECK(ss.str() == "Patient: Lidia Strzelecka (03232407362), 20 years old.\nMedical personel: Neurology doctor Jan Kowalski (03270607850).\nAnesthesiology doctor Konrad Nowak (09876534879).\nNurse: Ania Kotas (03287607850).\nOperation ID: 101\nCost of Operation: 2570.70 zł\nTime of the Operation left: 125min\nNFZ: 0");
+        CHECK(ss.str() == "Patient: Lidia Strzelecka (03232407362), 20 years old\nMedical personel: Neurology doctor Jan Kowalski (03270607850)\nAnesthesiology doctor Konrad Nowak (09876534879)\nNurse: Ania Kotas (03287607850)\nOperation ID: 101\nCost of Operation: 2570.70 zł\nTime of the Operation left: 125min\nNFZ: 0");
     }
 
     SECTION("testing adding and returning staff/pateint from service")

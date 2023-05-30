@@ -47,7 +47,7 @@ TEST_CASE("ambulanceDispatch simple tests", "[ambulanceDispatch]")
         CHECK((*dispatch.getAmbulance("CB062MH"))->getParamedic("09876754333").getName() == "Jan");
         CHECK((*dispatch.getAmbulance("CB062MH"))->getParamedic("09876754333").getSurname() == "Kowalski");
         CHECK((*dispatch.getAmbulance("CB062MH"))->getParamedic("09876754333").getActivity()== ParamedicActivity::IN_AMBULANCE);
-        CHECK(ss.str() == "Ambulance CB062MH went to the intervention. People inside:\n   Paramedic: Lidia Strzelecka (03232407362).\n   Paramedic: Jan Kowalski (09876754333).\n   Patient: Oliwier Szypczyn (03270607850), 20 years old.\n");
+        CHECK(ss.str() == "Ambulance CB062MH went to the intervention. People inside:\n   Paramedic: Lidia Strzelecka (03232407362)\n   Paramedic: Jan Kowalski (09876754333)\n   Patient: Oliwier Szypczyn (03270607850), 20 years old\n");
 
         std::unique_ptr<Patient> Robert = std::make_unique<Patient>("03270607859", "Robert", "Nowak", Sex::male, 35);
         CHECK_THROWS_MATCHES(dispatch.sendAmbulance(std::move(Robert)), std::logic_error, Catch::Matchers::Message("Free ambulance not found!"));

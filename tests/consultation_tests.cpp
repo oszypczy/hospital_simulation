@@ -67,7 +67,7 @@ TEST_CASE("consultation simple tests", "[consultation]")
         CHECK(consultation.calculateCost() == 23976);
         std::stringstream ss;
         ss << consultation;
-        CHECK(ss.str() == "Patient: Lidia Strzelecka (03232407362), 20 years old.\nMedical personel: General doctor Jan Kowalski (03270607850).\nConsultation ID: 2\nCost of consultation: 239.76 zł\nTime of the consultation left: 15min\nNFZ: 0");
+        CHECK(ss.str() == "Patient: Lidia Strzelecka (03232407362), 20 years old\nMedical personel: General doctor Jan Kowalski (03270607850)\nConsultation ID: 2\nCost of consultation: 239.76 zł\nTime of the consultation left: 15min\nNFZ: 0");
     }
 
     SECTION("testing correct personel however wrong patient")

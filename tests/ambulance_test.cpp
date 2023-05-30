@@ -106,6 +106,6 @@ TEST_CASE("ambulance simple tests", "[ambulance]")
         ambulance.startIntervention(std::move(patient));
         std::stringstream ss;
         ss << ambulance;
-        CHECK(ss.str() == "Ambulance CB062MH went to the intervention. People inside:\n   Paramedic: Jan Kowalski (03270607850).\n   Paramedic: Konrad Nowak (09876534879).\n   Patient: Lidia Strzelecka (03232407362), 20 years old.\n");
+        CHECK(ss.str() == "Ambulance CB062MH went to the intervention. People inside:\n   Paramedic: Jan Kowalski (03270607850)\n   Paramedic: Konrad Nowak (09876534879)\n   Patient: Lidia Strzelecka (03232407362), 20 years old\n");
     }
 }

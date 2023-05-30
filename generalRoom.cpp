@@ -25,16 +25,9 @@ void GeneralRoom::returnPatient(std::unique_ptr<Patient> patient){
 }
 
 void GeneralRoom::removePatient(std::unique_ptr<Patient> patient){
-    auto it = std::find_if(patientsList.begin(), patientsList.end(), [&](const std::unique_ptr<Patient>& p) {
-        return *p == *patient;
-    });
-
-    if (it != patientsList.end()) {
-        patientsPESELList.remove(patient->getPESEL());
-        patientsList.erase(it);
-        attachedBeds--;
-    }
-    else throw InvalidHumanPointer("Patient");
+    attachedBeds--;
+    patientsPESELList.remove(patient->getPESEL());
+    patientsList.remove(patient);
 }
 
 std::unique_ptr<Patient> GeneralRoom::movePatient(std::unique_ptr<Patient> patient){

@@ -62,7 +62,7 @@ TEST_CASE("patient simple tests", "[patient]")
     {
         std::stringstream ss;
         ss << Lidka;
-        CHECK(ss.str() == "Patient: Lidia Strzelecka (03232407362), 20 years old.");
+        CHECK(ss.str() == "Patient: Lidia Strzelecka (03232407362), 20 years old");
     }
 
     SECTION("testing healthcard")

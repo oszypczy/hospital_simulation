@@ -17,6 +17,6 @@ ushort Nurse::getHourlyWage() const {
 }
 
 std::ostream& operator<<(std::ostream& os, const Nurse& nurse) {
-    os << "Nurse: " << nurse.name << " " << nurse.surname << " (" << nurse.PESEL << ").";
+    os << "Nurse: " << nurse.name << " " << nurse.surname << " (" << nurse.PESEL << ")";
     return os;
 }
