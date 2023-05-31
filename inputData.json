@@ -35,6 +35,14 @@
                     "sex": 1,
                     "age": 99,
                     "specialty": 1
+                },
+                {
+                    "PESEL": "11554556688",
+                    "name": "Mateusz",
+                    "surname": "Mateuszowski",
+                    "sex": 1,
+                    "age": 55,
+                    "specialty": 3
                 }
             ],
             "nurses":[
@@ -51,6 +59,13 @@
                     "surname": "Laskowska",
                     "sex": 1,
                     "age": 42
+                },
+                {
+                    "PESEL": "23456788990",
+                    "name": "Kasia",
+                    "surname": "Kasiowska",
+                    "sex": 1,
+                    "age": 33
                 }
             ]
         },
@@ -59,7 +74,7 @@
             "wards":[
                 {
                     "id": "1237189273",
-                    "name": "General Ward",
+                    "name": "General Ward 1",
                     "treatmentroom":{
                             "id": "801 (OR)"
                     },
@@ -73,6 +88,26 @@
                         },
                         {
                             "id": "804 (GR)",
+                            "maxBeds": 6
+                        }
+                    ]
+                },
+                {
+                    "id": "1233333211",
+                    "name": "General Ward 2",
+                    "treatmentroom":{
+                            "id": "901 (OR)"
+                    },
+                    "consultationroom":{
+                            "id": "902 (CR)"
+                    },
+                    "generalrooms":[
+                        {
+                            "id": "903 (GR)",
+                            "maxBeds": 4
+                        },
+                        {
+                            "id": "904 (GR)",
                             "maxBeds": 6
                         }
                     ]
