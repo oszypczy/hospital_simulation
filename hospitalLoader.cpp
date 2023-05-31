@@ -92,7 +92,10 @@ Hospital HospitalLoader::loadHospital(){
     std::string receptionID = places["reception"]["id"].asString();
     auto reception = std::make_unique<Reception>(receptionID);
 
-    // tu jakos trzeba dodac pierwsza pielegniarke do recepcji
+    if (!nursesList.empty()){
+        reception->addNurse(std::move(nursesList.front()));
+        nursesList.pop_front();
+    }
 
     std::string ambulanceDispatchId = places["ambulancedispatch"]["id"].asString();
     auto ambulanceDispatch = std::make_unique<AmbulanceDispatch>(ambulanceDispatchId);

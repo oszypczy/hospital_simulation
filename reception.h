@@ -14,6 +14,7 @@ class Reception : public Place{
         std::unique_ptr<Nurse> nurse;
         std::deque<std::unique_ptr<Patient>> patientsQueue;
         ServiceDataBase serviceDataBase;
+        std::unique_ptr<Patient> generateService(std::unique_ptr<Patient> patient);
     public:
         Reception(std::string id);
         void addPatientToQueueFirst(std::unique_ptr<Patient> patient);

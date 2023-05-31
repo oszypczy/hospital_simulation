@@ -27,11 +27,6 @@ class Hospital{
         bool checkIfPlacesIDUnique() const;
         void addDoctor(std::unique_ptr<Doctor> doctor);
         void addNurse(std::unique_ptr<Nurse> nurse);
-        void removeDoctor(std::unique_ptr<Doctor> doctor);
-        void removeNurse(std::unique_ptr<Nurse> nurse);
-
-        std::unique_ptr<Doctor> moveDoctor(std::unique_ptr<Doctor> doctor);
-        std::unique_ptr<Nurse> moveNurse(std::unique_ptr<Nurse> nurse);
 
         std::list<std::unique_ptr<Ward>>& getWardsList();
         std::list<std::unique_ptr<Doctor>>& getDoctorsList();
