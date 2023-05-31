@@ -213,17 +213,30 @@ void Simulation::conductConsultations(){
                     patient->getHealthCard().finishService(serviceID);
                     hospital->getReception()->getServiceDataBase().removeService(serviceID);
                     ward->getConsultationRoom()->setCurrentServiceID(-1);
-                    for (auto& ward : hospital->getWardsList()){
-                        for (auto& room : ward->getGeneralRoomList()){
-                            if (room->checkIfPatientAssigned(patient->getPESEL())){
-                                std::stringstream ss;
-                                ss << *patient << " - patient was moved back to general room after consultation." << std::endl;
-                                room->returnPatient(std::move(patient));
-                                messages.push_back(ss.str());
-                                break;
-                            }
+
+                    // to jakos dziwnie dziala - do zmiany
+
+                    for (auto& room : ward->getGeneralRoomList()){
+                        if (room->checkIfPatientAssigned(patient->getPESEL())){
+                            std::stringstream ss;
+                            ss << *patient << " - patient was moved back to general room after consultation." << std::endl;
+                            room->returnPatient(std::move(patient));
+                            messages.push_back(ss.str());
+                            break;
                         }
                     }
+
+                    // for (auto& ward : hospital->getWardsList()){
+                    //     for (auto& room : ward->getGeneralRoomList()){
+                    //         if (room->checkIfPatientAssigned(patient->getPESEL())){
+                    //             std::stringstream ss;
+                    //             ss << *patient << " - patient was moved back to general room after consultation." << std::endl;
+                    //             room->returnPatient(std::move(patient));
+                    //             messages.push_back(ss.str());
+                    //             break;
+                    //         }
+                    //     }
+                    // }
                     hospital->addDoctor(std::move(doctor));
                     messages.push_back(ss.str());
                 }
@@ -311,23 +324,45 @@ void Simulation::conductTreatments(){
                     ss << *patient << " finished operation with " << *doctor1 << " and " << *doctor2 << " in room: " << ward->getTreatmentRoom()->getID() << std::endl;
                     messages.push_back(ss.str());
                     ss.str("");
-                    patient->getHealthCard().getDiseases().clear();
+                    // patient->getHealthCard().getDiseases().clear();
                     for (auto& planned : patient->getHealthCard().getServicesPlanned()){
+                        // patient->getHealthCard().finishService(planned);
+                        hospital->getReception()->getServiceDataBase().removeService(planned);
                         patient->getHealthCard().finishService(planned);
-                        hospital->getReception()->getServiceDataBase().removeService(planned); //tutaj mega rzadko wyrzuca błąd że nie ma takiego serwisu w bazie
+                        // try{
+                        //     hospital->getReception()->getServiceDataBase().removeService(planned); //tutaj mega rzadko wyrzuca błąd że nie ma takiego serwisu w bazie
+                        // }
+                        // catch(...){
+                        //     continue;
+                        // // hospital->getReception()->getServiceDataBase().getMedicalServices().erase();
+                        // }
                     }
+                    patient->getHealthCard().getDiseases().clear();
                     ward->getTreatmentRoom()->setCurrentServiceID(-1);
-                    for (auto& ward : hospital->getWardsList()){
-                        for (auto& room : ward->getGeneralRoomList()){
-                            if (room->checkIfPatientAssigned(patient->getPESEL())){
-                                ss << *patient << " - patient was moved back to general room after operation." << std::endl;
-                                room->returnPatient(std::move(patient));
-                                messages.push_back(ss.str());
-                                ss.str("");
-                                break;
-                            }
+                    // to nie dziala
+
+                    for (auto& room : ward->getGeneralRoomList()){
+                        if (room->checkIfPatientAssigned(patient->getPESEL())){
+                            ss << *patient << " - patient was moved back to general room after operation." << std::endl;
+                            room->returnPatient(std::move(patient));
+                            messages.push_back(ss.str());
+                            ss.str("");
+                            break;
                         }
                     }
+
+
+                    // for (auto& ward : hospital->getWardsList()){
+                    //     for (auto& room : ward->getGeneralRoomList()){
+                    //         if (room->checkIfPatientAssigned(patient->getPESEL())){
+                    //             ss << *patient << " - patient was moved back to general room after operation." << std::endl;
+                    //             room->returnPatient(std::move(patient));
+                    //             messages.push_back(ss.str());
+                    //             ss.str("");
+                    //             break;
+                    //         }
+                    //     }
+                    // }
                     hospital->addDoctor(std::move(doctor1));
                     hospital->addDoctor(std::move(doctor2));
                     hospital->addNurse(std::move(nurse));
